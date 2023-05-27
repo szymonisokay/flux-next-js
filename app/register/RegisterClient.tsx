@@ -1,19 +1,19 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
 
 import Logo from '../components/Logo'
-import Input from '../components/inputs/Input'
-import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import Heading from '../components/ui/Heading'
+import Input from '../components/inputs/Input'
+import Button from '../components/ui/Button'
 
-import { SignInResponse, signIn } from 'next-auth/react'
+import authService from '../services/authService'
 import { showToastError, showToastSuccess } from '../utils/showToast'
 
-const LoginClient = () => {
+const RegisterClient = () => {
 	const router = useRouter()
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -24,6 +24,7 @@ const LoginClient = () => {
 		formState: { errors },
 	} = useForm<FieldValues>({
 		defaultValues: {
+			name: '',
 			email: '',
 			password: '',
 		},
@@ -32,26 +33,15 @@ const LoginClient = () => {
 	const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 		setIsLoading(true)
 
-		const signInResponse: SignInResponse | undefined = await signIn(
-			'credentials',
-			{
-				...data,
-				redirect: false,
-			}
-		)
+		try {
+			const { message } = await authService.register(data)
 
-		if (signInResponse?.ok) {
+			showToastSuccess(message)
+			router.push('/login')
+		} catch (error: any) {
+			showToastError(error)
+		} finally {
 			setIsLoading(false)
-			showToastSuccess('Logged in')
-			router.push('/')
-			router.refresh()
-			return
-		}
-
-		if (signInResponse?.error) {
-			setIsLoading(false)
-			showToastError(null, signInResponse.error)
-			return
 		}
 	}
 
@@ -60,8 +50,16 @@ const LoginClient = () => {
 			<Logo />
 			<Card center>
 				<Heading
-					title='Welcome back in Flux!'
-					subtitle='Login into your account'
+					title='First time using Flux?'
+					subtitle='Create your account'
+				/>
+				<Input
+					id='name'
+					label='Username'
+					register={register}
+					errors={errors}
+					disabled={isLoading}
+					required
 				/>
 				<Input
 					id='email'
@@ -82,19 +80,19 @@ const LoginClient = () => {
 					required
 				/>
 				<Button
-					text='Login'
+					text='Register'
 					disabled={isLoading}
 					isLoading={isLoading}
 					onClick={handleSubmit(onSubmit)}
 				/>
 
 				<p>
-					Don't have an account?{' '}
+					Already have an account?{' '}
 					<span
 						className='text-green-600'
-						onClick={() => router.push('/register')}
+						onClick={() => router.push('/login')}
 					>
-						Create one
+						Sign in
 					</span>
 				</p>
 			</Card>
@@ -102,4 +100,4 @@ const LoginClient = () => {
 	)
 }
 
-export default LoginClient
+export default RegisterClient
