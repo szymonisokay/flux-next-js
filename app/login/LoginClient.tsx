@@ -11,7 +11,10 @@ import Card from '../components/ui/Card'
 import Heading from '../components/ui/Heading'
 
 import { SignInResponse, signIn } from 'next-auth/react'
+import IconButtonWithText from '../components/ui/IconButtonWithText'
 import { showToastError, showToastSuccess } from '../utils/showToast'
+
+import { FaGithub, FaGoogle } from 'react-icons/fa'
 
 const LoginClient = () => {
 	const router = useRouter()
@@ -88,10 +91,22 @@ const LoginClient = () => {
 					onClick={handleSubmit(onSubmit)}
 				/>
 
+				<IconButtonWithText
+					icon={FaGoogle}
+					label='Sign in with Google'
+					onClick={() => signIn('google')}
+				/>
+
+				<IconButtonWithText
+					icon={FaGithub}
+					label='Sign in with Github'
+					onClick={() => signIn('github')}
+				/>
+
 				<p>
 					Don't have an account?{' '}
 					<span
-						className='text-green-600'
+						className='text-indigo-800 cursor-pointer'
 						onClick={() => router.push('/register')}
 					>
 						Create one
