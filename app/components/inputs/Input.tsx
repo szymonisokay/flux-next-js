@@ -1,6 +1,6 @@
 'use client'
 
-import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form'
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 
 interface InputProps {
 	id: string
@@ -33,28 +33,29 @@ const Input: React.FC<InputProps> = ({
 					peer
 					w-full
 					p-2
-					pt-5
+					pt-4
 					pl-4
 					bg-white
-					border-2
+					border
 					rounded-md
 					outline-none
+					text-sm
 					transition
 					disabled:opacity-70
 					disabled:cursor-not-allowed
-					${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-					${errors[id] ? 'focus:border-rose-500' : 'focus:border-green-600'}
+					${errors[id] ? 'border-rose-500' : 'border'}
+					${errors[id] ? 'focus:border-rose-500' : 'focus:border-indigo-800'}
 				`}
 			/>
 			<label
 				htmlFor={id}
 				className={`
 				absolute
-				text-base
+				text-sm
 				duration-150
 				transform
 				-translate-y-3
-				top-4
+				top-[14px]
 				z-10
 				origin-[0] 
 				left-4

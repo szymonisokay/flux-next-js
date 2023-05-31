@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
+import { useState } from 'react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 
 import Logo from '../components/Logo'
-import Card from '../components/ui/Card'
-import Heading from '../components/ui/Heading'
 import Input from '../components/inputs/Input'
 import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import Heading from '../components/ui/Heading'
 
 import authService from '../services/authService'
 import { showToastError, showToastSuccess } from '../utils/showToast'
@@ -89,7 +89,7 @@ const RegisterClient = () => {
 				<p>
 					Already have an account?{' '}
 					<span
-						className='text-green-600'
+						className='text-indigo-800 cursor-pointer'
 						onClick={() => router.push('/login')}
 					>
 						Sign in

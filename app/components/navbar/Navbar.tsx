@@ -2,9 +2,10 @@
 
 import { User } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import IconButton from '../ui/IconButton'
+import Sidebar from './Sidebar'
 import UserInfo from './UserInfo'
 
 interface NavbarProps {
@@ -12,6 +13,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
+	const [isOpen, setIsOpen] = useState<boolean>(false)
+
 	const pathname = usePathname()
 	const router = useRouter()
 
@@ -30,17 +33,19 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
 	}
 
 	return (
-		<header className='fixed w-full flex items-center justify-between px-4 py-3 border-b-[1px] bg-neutral-100 '>
-			<IconButton
-				icon={IoMenuOutline}
-				size={28}
-				onClick={() => {
-					console.log('click')
-				}}
-			/>
+		<>
+			<header className='fixed w-full flex items-center justify-between px-4 py-3 border-b-[1px] bg-neutral-100 '>
+				<IconButton
+					icon={IoMenuOutline}
+					size={28}
+					onClick={() => setIsOpen(true)}
+				/>
 
-			<UserInfo currentUser={currentUser} notifications={2} />
-		</header>
+				<UserInfo currentUser={currentUser} notifications={2} />
+			</header>
+
+			<Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+		</>
 	)
 }
 

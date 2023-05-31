@@ -29,11 +29,19 @@ const Button: React.FC<ButtonProps> = ({
 			duration-300
 			disabled:opacity-70
 			disabled:cursor-not-allowed
-			${outline ? 'border-2 border-green-600' : 'border-0'}
-			${outline ? 'bg-white' : 'bg-green-600'}
+			${outline ? 'border-2 border-indigo-800' : 'border-0'}
+			${outline ? 'bg-white' : 'bg-indigo-800'}
 			${outline ? 'text-neutral-900' : 'text-neutral-100'}
-			${outline ? 'hover:bg-green-600 hover:text-neutral-100' : 'hover:bg-green-800'}
-			${outline ? 'focus:bg-green-600 focus:text-neutral-100' : 'focus:bg-green-800'}
+			${
+				outline
+					? 'hover:bg-indigo-800 hover:text-neutral-100'
+					: 'hover:bg-indigo-950'
+			}
+			${
+				outline
+					? 'focus:bg-indigo-800 focus:text-neutral-100'
+					: 'focus:bg-indigo-950'
+			}
 		`}
 			onClick={onClick}
 			disabled={disabled}
