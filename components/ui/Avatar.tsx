@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import placeholderAvatar from '../../../public/images/placeholder.jpg'
+import placeholderAvatar from '../../public/images/placeholder.jpg'
 
 interface AvatarProps {
 	src?: string | null

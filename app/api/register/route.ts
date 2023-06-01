@@ -1,11 +1,11 @@
-import { generateAvatarUrl } from '../../utils/generateAvatar'
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/libs/prismadb'
+import { generateAvatarUrl } from '../../../utils/generateAvatar'
 
-import { NextResponse } from 'next/server'
-import { hash } from 'bcrypt'
-import { throwError } from '../../utils/error'
-import { MessageResponse } from '../../interfaces/messageResponse.interface'
 import { User } from '@prisma/client'
+import { hash } from 'bcrypt'
+import { NextResponse } from 'next/server'
+import { MessageResponse } from '../../../interfaces/messageResponse.interface'
+import { throwError } from '../../../utils/error'
 
 export async function POST(request: Request) {
 	const body = await request.json()

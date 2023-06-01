@@ -1,4 +1,4 @@
-import getCurrentUser from './actions/getCurrentUser'
+import getCurrentUser from '../actions/getCurrentUser'
 import Loading from './loading'
 
 export default async function Home() {

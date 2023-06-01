@@ -24,6 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
 	return (
 		<div
+			onClick={onClose}
 			className={`fixed inset-0 z-40 bg-neutral-900/50 overflow-x-hidden overflow-y-hidden duration-150
         ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}
         ${isOpen ? 'opacity-100' : 'opacity-0'}

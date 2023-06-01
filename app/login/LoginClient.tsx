@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 
-import Logo from '../components/Logo'
-import Input from '../components/inputs/Input'
-import Button from '../components/ui/Button'
-import Card from '../components/ui/Card'
-import Heading from '../components/ui/Heading'
+import Logo from '../../components/Logo'
+import Input from '../../components/inputs/Input'
+import Button from '../../components/ui/Button'
+import Card from '../../components/ui/Card'
+import Heading from '../../components/ui/Heading'
 
 import { SignInResponse, signIn } from 'next-auth/react'
-import IconButtonWithText from '../components/ui/IconButtonWithText'
-import { showToastError, showToastSuccess } from '../utils/showToast'
+import IconButtonWithText from '../../components/ui/IconButtonWithText'
+import { showToastError, showToastSuccess } from '../../utils/showToast'
 
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 

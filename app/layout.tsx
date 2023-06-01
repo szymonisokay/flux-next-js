@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
-import getCurrentUser from './actions/getCurrentUser'
-import UserMenuModal from './components/modals/UserMenuModal'
-import Navbar from './components/navbar/Navbar'
+import getCurrentUser from '../actions/getCurrentUser'
+import UserMenuModal from '../components/modals/UserMenuModal'
+import Navbar from '../components/navbar/Navbar'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
