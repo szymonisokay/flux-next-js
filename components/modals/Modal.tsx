@@ -1,85 +1,52 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import { IoMdClose } from 'react-icons/io'
-import IconButton from '../ui/IconButton'
+import { DialogClose } from '@radix-ui/react-dialog'
+import { Icons } from '../icons'
+import { Button } from '../ui/button'
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from '../ui/dialog'
 
 interface ModalProps {
-	isOpen: boolean
-	onClose: () => void
 	title: string
+	subtitle?: string
 	body?: React.ReactElement
 	footer?: React.ReactElement
+	isOpen?: boolean
+	onClose: () => void
 }
 
 const Modal: React.FC<ModalProps> = ({
-	isOpen,
-	onClose,
+	subtitle,
 	title,
 	body,
 	footer,
+	isOpen,
+	onClose,
 }) => {
-	const [showModal, setShowModal] = useState<boolean>(isOpen)
-
-	useEffect(() => {
-		setShowModal(isOpen)
-	}, [isOpen])
-
-	const handleClose = useCallback(() => {
-		setShowModal(false)
-
-		setTimeout(() => {
-			onClose()
-		}, 300)
-	}, [onClose])
-
 	return (
-		<>
-			<div
-				className={`fixed inset-0 z-50 flex items-end justify-center overflow-x-hidden overflow-y-hidden  outline-none bg-neutral-900/50 focus:outline-none duration-150
-        ${showModal ? 'pointer-events-auto' : 'pointer-events-none'}
-        ${showModal ? 'opacity-100' : 'opacity-0'}
-      `}
-			>
-				<div
-					className='
-            relative
-            w-[90%]
-            h-[90%]
-            my-6
-            mx-auto
-          '
-				>
-					<div
-						className={`
-            duration-300
-            ${showModal ? 'translate-y-0' : 'translate-y-full'}
-            ${showModal ? 'opacity-100' : 'opacity-0'}
-          `}
-					>
-						<div className='relative flex flex-col w-full h-full border-0 rounded-lg outline-none bg-neutral-100 focus:outline-none'>
-							<div className='flex items-center p-4 rounded-t justify-center relative border-b-[1px]'>
-								<div className='absolute right-4'>
-									<IconButton
-										icon={IoMdClose}
-										onClick={handleClose}
-									/>
-								</div>
-								<div className='text-base font-semibold'>
-									{title}
-								</div>
-							</div>
-
-							<div className='relative flex-auto'>{body}</div>
-
-							<div className='relative p-4 border-t-[1px]'>
-								{footer}
-							</div>
-						</div>
-					</div>
+		<Dialog open={isOpen}>
+			<DialogContent className='p-0 py-4 h-[100vh]'>
+				<DialogClose asChild className='absolute right-4 top-4'>
+					<Button variant='ghost' size='sm' onClick={onClose}>
+						<Icons.close size={20} />
+					</Button>
+				</DialogClose>
+				<DialogHeader className='py-2'>
+					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{subtitle}</DialogDescription>
+				</DialogHeader>
+				<div className='flex flex-col gap-4 overflow-hidden'>
+					<div className='h-full px-4 pt-4 '>{body}</div>
 				</div>
-			</div>
-		</>
+				<DialogFooter>{footer}</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	)
 }
 

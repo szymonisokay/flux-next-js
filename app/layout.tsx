@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import getCurrentUser from '../actions/getCurrentUser'
-import UserMenuModal from '../components/modals/UserMenuModal'
 import Navbar from '../components/navbar/Navbar'
+import ModalProvider from '../providers/ModalProvider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,11 +21,13 @@ export default async function RootLayout({
 
 	return (
 		<html lang='en'>
-			<body className={inter.className}>
+			<body className={`${inter.className}`}>
 				<Toaster position='top-center' reverseOrder={true} />
 				<Navbar currentUser={currentUser} />
-				<UserMenuModal currentUser={currentUser} />
-				{children}
+
+				<ModalProvider currentUser={currentUser}>
+					{children}
+				</ModalProvider>
 			</body>
 		</html>
 	)

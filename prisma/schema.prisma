@@ -42,3 +42,47 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+model Exercise {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  Aka String?
+  Category String?
+	Difficulty String?
+	Force String?
+	Grips String?
+	details String?
+	exercise_name String?
+	steps String[]
+	target ExerciseTarget
+	videoURL String[]
+	youtubeURL String?
+}
+
+type ExerciseTarget {
+  Primary String[]
+  Secondary String[]
+  Tertiary String[]
+}
+
+model Workout {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  exercises WorkoutExercise[]
+  date DateTime
+  workoutTime String?
+  workoutDuration Int?
+  weight Int?
+  photos String[]
+}
+
+type WorkoutExercise {
+  exerciseId String?
+  isEditing Boolean
+  rowId String
+  sets SetModel[]
+}
+
+type SetModel {
+  reps Int? @default(0)
+  weight Int? @default(0)
+}

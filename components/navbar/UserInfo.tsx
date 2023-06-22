@@ -2,10 +2,9 @@
 
 import { User } from '@prisma/client'
 
-import IconButton from '../ui/IconButton'
-
-import { BiBell, BiUser } from 'react-icons/bi'
 import useUserMenuModal from '../../hooks/useUserMenuModal'
+import { Icons } from '../icons'
+import { Button } from '../ui/button'
 
 interface UserInfoProps {
 	currentUser?: User | null
@@ -17,18 +16,13 @@ const UserInfo: React.FC<UserInfoProps> = ({ currentUser, notifications }) => {
 
 	return (
 		<div className='flex items-center gap-2 px-2'>
-			<IconButton
-				icon={BiBell}
-				size={22}
-				onClick={() => {}}
-				showNotifications={!!notifications}
-			/>
-			<IconButton
-				icon={BiUser}
-				size={22}
-				onClick={userMenuModal.onOpen}
-			/>
-			{/* <Avatar rounded small src={currentUser?.image} onClick={() => {}} /> */}
+			<Button variant='ghost' size='sm' onClick={() => {}}>
+				<Icons.bell size={20} />
+			</Button>
+
+			<Button variant='ghost' size='sm' onClick={userMenuModal.onOpen}>
+				<Icons.user size={20} />
+			</Button>
 		</div>
 	)
 }

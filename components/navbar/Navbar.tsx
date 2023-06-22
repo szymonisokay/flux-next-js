@@ -2,10 +2,10 @@
 
 import { User } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { IoMenuOutline } from 'react-icons/io5'
-import IconButton from '../ui/IconButton'
-import Sidebar from './Sidebar'
+import { useEffect } from 'react'
+import useMenuModal from '../../hooks/useMenuModal'
+import { Icons } from '../icons'
+import { Button } from '../ui/button'
 import UserInfo from './UserInfo'
 
 interface NavbarProps {
@@ -13,8 +13,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false)
-
+	const menuModal = useMenuModal()
 	const pathname = usePathname()
 	const router = useRouter()
 
@@ -34,17 +33,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
 
 	return (
 		<>
-			<header className='fixed w-full flex items-center justify-between px-4 py-3 border-b-[1px] bg-neutral-100 '>
-				<IconButton
-					icon={IoMenuOutline}
-					size={28}
-					onClick={() => setIsOpen(true)}
-				/>
+			<header className='fixed w-full bg-white dark:bg-background flex items-center justify-between px-4 py-3 border-b-[1px]'>
+				<Button variant='ghost' size='sm' onClick={menuModal.onOpen}>
+					<Icons.menu size={20} />
+				</Button>
 
 				<UserInfo currentUser={currentUser} notifications={2} />
 			</header>
-
-			<Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 		</>
 	)
 }

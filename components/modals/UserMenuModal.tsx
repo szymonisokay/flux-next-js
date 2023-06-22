@@ -2,22 +2,17 @@
 
 import { User } from '@prisma/client'
 import useUserMenuModal from '../../hooks/useUserMenuModal'
-import MenuItem from '../navbar/MenuItem'
-import Avatar from '../ui/Avatar'
-import IconButton from '../ui/IconButton'
-import Modal from './Modal'
-
-import { BiDumbbell, BiPencil, BiUser } from 'react-icons/bi'
-import {
-	HiOutlineArchive,
-	HiOutlineDocumentText,
-	HiOutlineLogout,
-} from 'react-icons/hi'
-import { RxCalendar } from 'react-icons/rx'
 
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
+import { MenuItem } from '../../interfaces/menuItem.interface'
+import Menu from '../custom/Menu'
+import Modal from './Modal'
+
+import { Icons } from '@/components/icons'
+import Avatar from '../custom/Avatar'
+import { Button } from '../ui/button'
 
 interface UserMenuModalProps {
 	currentUser?: User | null
@@ -36,65 +31,59 @@ const UserMenuModal: React.FC<UserMenuModalProps> = ({ currentUser }) => {
 		})
 	}, [userMenuModal, router])
 
+	const menuItems: MenuItem[] = [
+		{
+			label: 'Account',
+			href: '/',
+			action: userMenuModal.onClose,
+			icon: Icons.user,
+		},
+		{
+			label: 'Calendar',
+			href: '/',
+			action: userMenuModal.onClose,
+			icon: Icons.calendarDays,
+		},
+		{
+			label: 'Log out',
+			href: '/',
+			action: onLogOut,
+			icon: Icons.logout,
+		},
+	]
+
 	const body = (
 		<>
-			<div className='flex items-center justify-between p-4'>
-				<div className='flex items-center gap-4'>
-					<Avatar rounded src={currentUser?.image} />
-					<div className='flex flex-col gap-0'>
-						<div className='text-base font-semibold'>
+			<div className='flex items-center justify-between'>
+				<div className='flex items-center'>
+					<Avatar src={currentUser?.image} />
+					<div className='ml-4 space-y-1'>
+						<p className='text-sm font-medium leading-none'>
 							{currentUser?.name}
-						</div>
-						<div className='text-sm font-normal text-neutral-500'>
+						</p>
+						<p className='text-sm text-muted-foreground'>
 							{currentUser?.email}
-						</div>
+						</p>
 					</div>
 				</div>
 
-				<IconButton icon={BiPencil} onClick={() => {}} />
+				<Button variant='ghost' size='sm' onClick={() => {}}>
+					<Icons.pencil size={20} />
+				</Button>
 			</div>
 
-			<div className='flex flex-col border-t-[1px] p-4'>
-				<MenuItem icon={BiUser} label='Account' onClick={() => {}} />
-				<MenuItem
-					icon={RxCalendar}
-					label='Calendar'
-					onClick={() => {}}
-				/>
-				<MenuItem
-					icon={BiDumbbell}
-					label='Exercises'
-					onClick={() => {}}
-				/>
-				<MenuItem
-					icon={HiOutlineDocumentText}
-					label='Training plans'
-					onClick={() => {}}
-				/>
-				<MenuItem
-					icon={HiOutlineArchive}
-					label='Archives'
-					onClick={() => {}}
-				/>
-				<MenuItem
-					error
-					icon={HiOutlineLogout}
-					label='Log out'
-					onClick={onLogOut}
-				/>
+			<div className='flex flex-col pt-4'>
+				<Menu menuItems={menuItems} />
 			</div>
 		</>
 	)
 
-	const footer = <div>footer</div>
-
 	return (
 		<Modal
 			title='User menu'
+			body={body}
 			isOpen={userMenuModal.isOpen}
 			onClose={userMenuModal.onClose}
-			body={body}
-			footer={footer}
 		/>
 	)
 }
