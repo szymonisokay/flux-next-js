@@ -15,7 +15,7 @@ import {
 interface ModalProps {
 	title: string
 	subtitle?: string
-	body?: React.ReactElement
+	children?: React.ReactNode
 	footer?: React.ReactElement
 	isOpen?: boolean
 	onClose: () => void
@@ -24,7 +24,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({
 	subtitle,
 	title,
-	body,
+	children,
 	footer,
 	isOpen,
 	onClose,
@@ -42,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
 					<DialogDescription>{subtitle}</DialogDescription>
 				</DialogHeader>
 				<div className='flex flex-col gap-4 overflow-hidden'>
-					<div className='h-full px-4 pt-4 '>{body}</div>
+					<div className='h-full px-4 pt-4 '>{children}</div>
 				</div>
 				<DialogFooter>{footer}</DialogFooter>
 			</DialogContent>

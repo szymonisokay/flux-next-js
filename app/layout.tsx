@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import getCurrentUser from '../actions/getCurrentUser'
 import Navbar from '../components/navbar/Navbar'
 import ModalProvider from '../providers/ModalProvider'
+import WorkoutProvider from '../providers/WorkoutProvider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,7 +27,7 @@ export default async function RootLayout({
 				<Navbar currentUser={currentUser} />
 
 				<ModalProvider currentUser={currentUser}>
-					{children}
+					<WorkoutProvider>{children}</WorkoutProvider>
 				</ModalProvider>
 			</body>
 		</html>

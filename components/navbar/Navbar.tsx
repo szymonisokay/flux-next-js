@@ -33,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
 
 	return (
 		<>
-			<header className='fixed w-full bg-white dark:bg-background flex items-center justify-between px-4 py-3 border-b-[1px]'>
+			<header className='fixed w-full bg-white dark:bg-background flex items-center justify-between px-4 py-3 border-b-[1px] z-50'>
 				<Button variant='ghost' size='sm' onClick={menuModal.onOpen}>
 					<Icons.menu size={20} />
 				</Button>

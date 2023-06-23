@@ -1,51 +1,131 @@
 'use client'
 
 import { Exercise } from '@prisma/client'
+import { PaginatedList } from '../../interfaces/paginatedList.interface'
+
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import qs from 'query-string'
+import { ClipLoader } from 'react-spinners'
 import Pagination from '../../components/custom/Pagination'
 import SearchBar from '../../components/custom/Searchbar'
 import Exercises from '../../components/exercises/Exercises'
-import { PaginatedList } from '../../interfaces/paginatedList.interface'
+import { PaginationModel } from '../../interfaces/pagination.interface'
+import exerciseService from '../../services/exerciseService'
 
-import { useEffect, useState } from 'react'
-
-import useExerciseParams from '../../hooks/useExerciseParams'
-import { updateParams } from '../../lib/updateParams'
-
-interface ExerciseClientProps {
-	exercises: PaginatedList<Exercise[]>
-}
-
-const ExercisesClient: React.FC<ExerciseClientProps> = ({ exercises }) => {
+const ExercisesClient = () => {
+	const params = useSearchParams()
 	const router = useRouter()
 	const pathname = usePathname()
-	const params = useSearchParams()
-	const { query: urlQuery } = useExerciseParams()
 
-	const [query, setQuery] = useState<string>(urlQuery)
+	const [exercises, setExercises] = useState<PaginatedList<Exercise[]>>({
+		results: [],
+		total: 0,
+	})
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [pagination, setPagination] = useState<PaginationModel>({
+		page: 1,
+		pageSize: 10,
+	})
+	const [query, setQuery] = useState<string>(params?.get('query') || '')
+	const [searchValue, setSearchValue] = useState<string>(
+		params?.get('query') || ''
+	)
+
+	const { page, pageSize } = pagination
+
+	const isEmptyState = useMemo(() => {
+		return exercises.total === 0
+	}, [exercises.total])
+
+	const fetchExercises = useCallback(async () => {
+		setIsLoading(true)
+
+		try {
+			const exercises = await exerciseService.getExercises(
+				page,
+				pageSize,
+				query
+			)
+
+			setExercises(exercises)
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setIsLoading(false)
+		}
+	}, [page, pageSize, query])
+
+	const updateSearchParams = (searchQuery: string) => {
+		if (params) {
+			const currentQuery = qs.parse(params.toString())
+
+			const query: any = {
+				...currentQuery,
+				query: searchQuery,
+			}
+
+			if (!searchQuery) {
+				delete query.query
+			}
+
+			const url = qs.stringifyUrl(
+				{
+					url: pathname || '/',
+					query: query,
+				},
+				{ skipNull: true }
+			)
+
+			router.push(url)
+		}
+	}
 
 	useEffect(() => {
-		const timeout = setTimeout(() => {
-			updateParams({ query }, router, params, pathname)
-		}, 500)
+		updateSearchParams(query)
+	}, [query])
+
+	useEffect(() => {
+		const timeout = setTimeout(() => setQuery(searchValue), 500)
 
 		return () => clearTimeout(timeout)
-	}, [query, router, params])
+	}, [searchValue])
+
+	useEffect(() => {
+		fetchExercises()
+	}, [page, pageSize, query])
 
 	return (
 		<div className='flex flex-col h-full gap-4 px-4 pt-20 pb-4 overflow-y-auto no-scrollbar'>
-			<SearchBar value={query} onChange={(value) => setQuery(value)} />
+			<SearchBar value={searchValue} onChange={setSearchValue} />
 
-			<div className='-mb-2 text-sm text-muted-foreground'>
-				<p>
-					Total:{' '}
-					<span className='font-bold text-primary'>
-						{exercises.total}
-					</span>
-				</p>
-			</div>
-			<Exercises exercises={exercises.results} />
-			<Pagination total={exercises.total} />
+			{isLoading && (
+				<div className='flex items-center justify-center h-full'>
+					<ClipLoader />
+				</div>
+			)}
+
+			{!isLoading && isEmptyState && <p>empty</p>}
+
+			{!isLoading && !isEmptyState && (
+				<>
+					<div className='pt-2 text-sm text-muted-foreground'>
+						<p>
+							Total:{' '}
+							<span className='font-bold text-primary'>
+								{exercises.total}
+							</span>
+						</p>
+					</div>
+					<Exercises exercises={exercises.results} />
+					<Pagination
+						total={exercises.total}
+						pagination={pagination}
+						onPaginationChange={setPagination}
+					/>
+				</>
+			)}
 		</div>
 	)
 }

@@ -1,33 +1,32 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Icons } from '../icons'
 
-import useExerciseParams from '../../hooks/useExerciseParams'
-import { updateParams } from '../../lib/updateParams'
+import { PaginationModel } from '../../interfaces/pagination.interface'
 import { Button } from '../ui/button'
 
 interface PaginationProps {
 	total: number
+	pagination: PaginationModel
+	onPaginationChange: (pagination: PaginationModel) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({ total }) => {
-	const params = useSearchParams()
-	const router = useRouter()
-	const pathname = usePathname()
-	const { page, pageSize } = useExerciseParams()
-
-	const [currentPage, setCurrentPage] = useState<number>(page)
-
+const Pagination: React.FC<PaginationProps> = ({
+	total,
+	pagination,
+	onPaginationChange,
+}) => {
 	const totalPages = useMemo(() => {
-		return Math.ceil(total / pageSize)
-	}, [total, pageSize])
+		return Math.ceil(total / pagination.pageSize)
+	}, [total, pagination.pageSize])
 
 	const onPageChange = useCallback(
 		(page: number) => {
-			onUpdateParams({ page })
-			setCurrentPage(page)
+			onPaginationChange({
+				page,
+				pageSize: 20,
+			})
 
 			setTimeout(() => {
 				document.querySelector('.no-scrollbar')?.scrollTo({
@@ -40,37 +39,25 @@ const Pagination: React.FC<PaginationProps> = ({ total }) => {
 		[setTimeout]
 	)
 
-	const onUpdateParams = useCallback(
-		(query: { [key: string]: any }) => {
-			updateParams(query, router, params, pathname)
-		},
-		[router, params, pathname]
-	)
-
-	useEffect(() => {
-		console.log(page, pageSize)
-		onUpdateParams({ page, pageSize })
-	}, [page, pageSize])
-
 	return (
 		<div className='relative flex items-center justify-center gap-3'>
 			<Button
 				variant='ghost'
 				size='sm'
-				disabled={currentPage === 1}
-				onClick={() => onPageChange(currentPage - 1)}
+				disabled={pagination.page === 1}
+				onClick={() => onPageChange(pagination.page - 1)}
 			>
 				<Icons.chevronLeft size={20} />
 			</Button>
 			<p>
-				page <span className='font-bold'>{currentPage}</span> of{' '}
+				page <span className='font-bold'>{pagination.page}</span> of{' '}
 				<span className='font-bold'>{totalPages}</span>{' '}
 			</p>
 			<Button
 				variant='ghost'
 				size='sm'
-				disabled={currentPage === totalPages}
-				onClick={() => onPageChange(currentPage + 1)}
+				disabled={pagination.page === totalPages}
+				onClick={() => onPageChange(pagination.page + 1)}
 			>
 				<Icons.chevronRight size={20} />
 			</Button>

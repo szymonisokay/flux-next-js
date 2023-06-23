@@ -42,19 +42,14 @@ const MenuModal = () => {
 		},
 	]
 
-	const body = (
-		<div>
-			<Menu menuItems={menuItems} />
-		</div>
-	)
-
 	return (
 		<Modal
 			title='Menu'
-			body={body}
 			isOpen={menuModal.isOpen}
 			onClose={menuModal.onClose}
-		/>
+		>
+			<Menu menuItems={menuItems} />
+		</Modal>
 	)
 }
 

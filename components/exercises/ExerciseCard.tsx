@@ -59,7 +59,9 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
 				{selectable ? (
 					<p>{exercise_name}</p>
 				) : (
-					<Link href={`/exercises/${id}`}>{exercise_name}</Link>
+					<Link prefetch={false} href={`/exercises/${id}`}>
+						{exercise_name}
+					</Link>
 				)}
 			</div>
 
