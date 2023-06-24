@@ -25,7 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({
 		(page: number) => {
 			onPaginationChange({
 				page,
-				pageSize: 20,
+				pageSize: pagination.pageSize,
 			})
 
 			setTimeout(() => {

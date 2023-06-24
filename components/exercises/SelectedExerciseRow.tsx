@@ -3,14 +3,12 @@
 import { WorkoutExercise } from '@prisma/client'
 import { ChevronsUpDown } from 'lucide-react'
 import useExercises from '../../hooks/useExercises'
-import { ExerciseShortInfo } from '../../interfaces/exercises.interface'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 
 interface SelectedExerciseRowProps {
 	exercise: WorkoutExercise
-	exercises: ExerciseShortInfo[]
 	onEditExercise: (rowId: string) => void
 	onRemoveExercise: (rowId: string) => void
 	onSaveExercise: (rowId: string) => void
@@ -21,7 +19,6 @@ interface SelectedExerciseRowProps {
 
 const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 	exercise,
-	exercises,
 	onEditExercise,
 	onRemoveExercise,
 	onSaveExercise,
@@ -30,7 +27,6 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 	onChangeSets,
 }) => {
 	const { exerciseName } = useExercises({
-		exercises,
 		exerciseId: exercise.exerciseId,
 	})
 
