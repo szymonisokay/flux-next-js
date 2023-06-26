@@ -1,7 +1,7 @@
 'use client'
 
 import { WorkoutExercise } from '@prisma/client'
-import { ChevronsUpDown } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import useExercises from '../../hooks/useExercises'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
@@ -66,13 +66,14 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 					<Button
 						variant='outline'
 						className='flex justify-between w-full max-w-[70%]'
+						title={exerciseName}
 						onClick={() => onSetSelectedRowId(exercise.rowId)}
 					>
-						<p>
+						<p className='truncate'>
 							{exerciseName ? exerciseName : 'Select exercise...'}
 						</p>
 
-						<ChevronsUpDown className='w-4 h-4 ml-2 opacity-50 shrink-0' />
+						<ExternalLink className='w-4 h-4 ml-2 opacity-50 shrink-0' />
 					</Button>
 				) : (
 					<p className='text-sm truncate text-muted-foreground'>
