@@ -35,8 +35,9 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
 
 	return (
 		<div
-			className={`w-full p-4 border rounded-md 
-		${selectable ? 'cursor-pointer' : 'cursor-auto'}
+			className={`w-full p-4  rounded-md 
+			${selectable ? 'cursor-pointer' : 'cursor-auto'}
+			${selectedId === id ? 'border-card-foreground border-[1px]' : 'border'}
 		`}
 			onClick={() => onSetSelectedId(id)}
 		>

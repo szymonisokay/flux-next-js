@@ -1,7 +1,7 @@
 'use client'
 
 import { Exercise, WorkoutExercise } from '@prisma/client'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import useExercises from '../../hooks/useExercises'
 import useSelectExerciseModal from '../../hooks/useSelectExerciseModal'
@@ -36,6 +36,8 @@ const SelectExerciseModal: React.FC<SelectExerciseModalProps> = ({
 	const [query, setQuery] = useState<string>('')
 	const [searchValue, setSearchValue] = useState<string>('')
 	const [selectedExerciseId, setSelectedExerciseId] = useState<string>('')
+	const [isBottom, setIsBottom] = useState<boolean>(false)
+	const scrollRef = useRef<HTMLDivElement>(null)
 
 	const { page, pageSize } = pagination
 
@@ -93,6 +95,15 @@ const SelectExerciseModal: React.FC<SelectExerciseModalProps> = ({
 		setSelectedExerciseId('')
 	}
 
+	const onHideSelectedExercise = () => {
+		if (!scrollRef.current) return
+
+		const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
+		const isBottom = clientHeight + scrollTop >= scrollHeight
+
+		setIsBottom(isBottom)
+	}
+
 	const footer = (
 		<>
 			{!isLoading && (
@@ -105,8 +116,8 @@ const SelectExerciseModal: React.FC<SelectExerciseModalProps> = ({
 
 			{selectedExerciseId && (
 				<div
-					className={`fixed bottom-0 w-full flex flex-col gap-4 p-4 rounded-tl-lg rounded-tr-lg bg-primary duration-150
-				
+					className={`fixed bottom-0 w-full flex-col gap-4 p-4 rounded-tl-lg rounded-tr-lg bg-primary duration-150
+					${isBottom ? 'hidden' : 'flex'}
 				`}
 				>
 					<p className='text-primary-foreground'>
@@ -131,7 +142,11 @@ const SelectExerciseModal: React.FC<SelectExerciseModalProps> = ({
 		>
 			<div className='flex flex-col h-full gap-4'>
 				<SearchBar value={searchValue} onChange={setSearchValue} />
-				<div className='flex flex-col h-full gap-4 overflow-y-scroll no-scrollbar'>
+				<div
+					ref={scrollRef}
+					onScroll={onHideSelectedExercise}
+					className='flex flex-col h-full gap-4 overflow-y-scroll no-scrollbar'
+				>
 					{isLoading && (
 						<div className='flex items-center justify-center h-full'>
 							<ClipLoader />
