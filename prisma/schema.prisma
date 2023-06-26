@@ -83,6 +83,7 @@ type WorkoutExercise {
 }
 
 type SetModel {
+  setRowId String
   reps Int? @default(0)
   weight Int? @default(0)
 }

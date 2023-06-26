@@ -13,8 +13,14 @@ interface SelectedExerciseRowProps {
 	onRemoveExercise: (rowId: string) => void
 	onSaveExercise: (rowId: string) => void
 	onSetSelectedRowId: (rowId: string) => void
-	onChangeReps: (rowId: string, value: number) => void
-	onChangeSets: (rowId: string, value: number) => void
+	onAddSets: (rowId: string) => void
+	onRemoveSets: (rowId: string) => void
+	onChangeReps: (
+		rowId: string,
+		numberOfReps: number,
+		setRowId: string
+	) => void
+	onChangeWeight: (rowId: string, weight: number, setRowId: string) => void
 }
 
 const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
@@ -23,8 +29,10 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 	onRemoveExercise,
 	onSaveExercise,
 	onSetSelectedRowId,
+	onAddSets,
+	onRemoveSets,
 	onChangeReps,
-	onChangeSets,
+	onChangeWeight,
 }) => {
 	const { exerciseName } = useExercises({
 		exerciseId: exercise.exerciseId,
@@ -46,12 +54,18 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 			`}
 			key={exercise.rowId}
 		>
-			<div>
+			<div
+				className={`flex ${
+					exercise.isEditing
+						? 'items-center justify-between gap-4'
+						: 'flex-col'
+				}`}
+			>
 				<p>Exercise</p>
 				{exercise.isEditing ? (
 					<Button
 						variant='outline'
-						className='flex justify-between w-full mt-2'
+						className='flex justify-between w-full max-w-[70%]'
 						onClick={() => onSetSelectedRowId(exercise.rowId)}
 					>
 						<p>
@@ -66,34 +80,86 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 					</p>
 				)}
 			</div>
-			<div className={`${exercise.isEditing ? 'ml-0' : 'ml-auto'}`}>
-				<p>Sets</p>
-				{exercise.isEditing ? (
-					<Input
-						className='mt-2'
-						type='number'
-						onChange={(e) =>
-							onChangeSets(exercise.rowId, +e.target.value)
-						}
-					/>
-				) : (
-					<p className='text-sm text-muted-foreground'>{0}</p>
-				)}
-			</div>
-			<div>
-				<p>Reps</p>
-				{exercise.isEditing ? (
-					<Input
-						className='mt-2'
-						type='number'
-						onChange={(e) =>
-							onChangeReps(exercise.rowId, +e.target.value)
-						}
-					/>
-				) : (
-					<p className='text-sm text-muted-foreground'>{0}</p>
-				)}
-			</div>
+			{exercise.exerciseId && (
+				<div
+					className={`flex ${
+						exercise.isEditing
+							? 'ml-0 justify-between items-center gap-4 min-h-[40px]'
+							: 'ml-auto flex-col'
+					}`}
+				>
+					<p>Sets</p>
+					{exercise.isEditing ? (
+						<div className='flex items-center justify-between gap-4'>
+							<Button
+								variant='ghost'
+								size='sm'
+								onClick={() => onRemoveSets(exercise.rowId)}
+							>
+								<Icons.minus size={20} />
+							</Button>
+
+							<p>{exercise.sets.length}</p>
+
+							<Button
+								variant='ghost'
+								size='sm'
+								onClick={() => onAddSets(exercise.rowId)}
+							>
+								<Icons.add size={20} />
+							</Button>
+						</div>
+					) : (
+						<p className='text-sm text-muted-foreground'>
+							{exercise.sets.length}
+						</p>
+					)}
+				</div>
+			)}
+			{!!exercise.sets.length && (
+				<div className='pr-2 pb-2 overflow-y-auto max-h-[200px] no-scrollbar'>
+					{exercise.isEditing && (
+						<>
+							{exercise.sets.map((set, index) => (
+								<div
+									key={set.setRowId}
+									className='flex gap-4 mb-4 last-of-type:mb-0'
+								>
+									Set no. {index + 1}
+									<div className='ml-auto max-w-[70px]'>
+										Reps
+										<Input
+											className='mt-2'
+											value={set.reps ?? 0}
+											onChange={(e) =>
+												onChangeReps(
+													exercise.rowId,
+													+e.target.value,
+													set.setRowId
+												)
+											}
+										/>
+									</div>
+									<div className='max-w-[80px]'>
+										Weight
+										<Input
+											className='mt-2'
+											value={set.weight ?? 0}
+											onChange={(e) =>
+												onChangeWeight(
+													exercise.rowId,
+													+e.target.value,
+													set.setRowId
+												)
+											}
+										/>
+									</div>
+								</div>
+							))}
+						</>
+					)}
+				</div>
+			)}
 			{!exercise.isEditing && (
 				<div className='flex items-center gap-2 duration-200 absolute bg-card right-[-100%] top-[50%] translate-y-[-50%] py-4 pl-4 group-hover:right-4'>
 					<Button
@@ -119,6 +185,7 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 			{exercise.isEditing && (
 				<Button
 					size='sm'
+					disabled={!exercise.sets.length || !exercise.exerciseId}
 					onClick={() => onSaveExercise(exercise.rowId)}
 				>
 					Save exercise

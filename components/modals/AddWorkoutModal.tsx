@@ -1,6 +1,6 @@
 'use client'
 
-import { Workout, WorkoutExercise } from '@prisma/client'
+import { SetModel, Workout, WorkoutExercise } from '@prisma/client'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -106,22 +106,79 @@ const AddWorkoutModal: React.FC<AddWorkoutModalProps> = ({
 		)
 	}
 
-	const onChangeReps = (rowId: string, value: number) => {
-		// setSelectedExercises((exercises) =>
-		// 	exercises.map((exercise) => ({
-		// 		...exercise,
-		// 		sets: []
-		// 	}))
-		// )
+	const onAddSets = (rowId: string) => {
+		let sets: SetModel[] =
+			workoutExercises.find((exercise) => exercise.rowId === rowId)
+				?.sets || []
+
+		sets = [...sets, { setRowId: uuidv4(), reps: 0, weight: 0 }]
+
+		setWorkoutExercises((exercises) =>
+			exercises.map((exercise) => ({
+				...exercise,
+				sets: exercise.rowId === rowId ? sets : exercise.sets,
+			}))
+		)
 	}
 
-	const onChangeSets = (rowId: string, value: number) => {
-		// setSelectedExercises((exercises) =>
-		// 	exercises.map((exercise) => ({
-		// 		...exercise,
-		// 		sets: exercise.rowId === rowId ? value : exercise.sets,
-		// 	}))
-		// )
+	const onRemoveSets = (rowId: string) => {
+		let sets: SetModel[] = [
+			...(workoutExercises.find((exercise) => exercise.rowId === rowId)
+				?.sets || []),
+		]
+
+		sets.pop()
+
+		setWorkoutExercises((exercises) =>
+			exercises.map((exercise) => ({
+				...exercise,
+				sets: exercise.rowId === rowId ? sets : exercise.sets,
+			}))
+		)
+	}
+
+	const onChangeReps = (
+		rowId: string,
+		numberOfReps: number,
+		setRowId: string
+	) => {
+		const sets = workoutExercises.find(
+			(exercise) => exercise.rowId === rowId
+		)?.sets
+
+		if (!sets) return
+
+		setWorkoutExercises((exercises) =>
+			exercises.map((exercise) => ({
+				...exercise,
+				sets: sets.map((set) => ({
+					...set,
+					reps: set.setRowId === setRowId ? numberOfReps : set.reps,
+				})),
+			}))
+		)
+	}
+
+	const onChangeWeight = (
+		rowId: string,
+		weight: number,
+		setRowId: string
+	) => {
+		const sets = workoutExercises.find(
+			(exercise) => exercise.rowId === rowId
+		)?.sets
+
+		if (!sets) return
+
+		setWorkoutExercises((exercises) =>
+			exercises.map((exercise) => ({
+				...exercise,
+				sets: sets.map((set) => ({
+					...set,
+					weight: set.setRowId === setRowId ? weight : set.weight,
+				})),
+			}))
+		)
 	}
 
 	const onSetSelectedRowId = (rowId: string) => {
@@ -149,7 +206,7 @@ const AddWorkoutModal: React.FC<AddWorkoutModalProps> = ({
 
 	return (
 		<Modal title='Add workout' isOpen={isOpen} onClose={onClose}>
-			<div className='flex flex-col gap-4'>
+			<div className='flex flex-col h-full gap-4 overflow-y-auto no-scrollbar'>
 				{date && (
 					<p className='text-lg'>
 						Add new workout for{' '}
@@ -199,8 +256,10 @@ const AddWorkoutModal: React.FC<AddWorkoutModalProps> = ({
 									onRemoveExercise={onRemoveExercise}
 									onSaveExercise={onSaveExercise}
 									onSetSelectedRowId={onSetSelectedRowId}
+									onAddSets={onAddSets}
+									onRemoveSets={onRemoveSets}
 									onChangeReps={onChangeReps}
-									onChangeSets={onChangeSets}
+									onChangeWeight={onChangeWeight}
 								/>
 							))}
 							<Button
