@@ -42,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
 					<DialogDescription>{subtitle}</DialogDescription>
 				</DialogHeader>
 				<div className='flex flex-col gap-4 overflow-hidden'>
-					<div className='h-full px-4 pt-4 '>{children}</div>
+					<div className='h-full px-4'>{children}</div>
 				</div>
 				<DialogFooter>{footer}</DialogFooter>
 			</DialogContent>

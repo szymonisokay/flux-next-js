@@ -21,11 +21,13 @@ import Modal from './Modal'
 interface AddWorkoutModalProps {
 	onSelectExercise: (exercise: WorkoutExercise) => void
 	changedExercise: ChangedExercise
+	randomExercise: ChangedExercise
 }
 
 const AddWorkoutModal: React.FC<AddWorkoutModalProps> = ({
 	onSelectExercise,
 	changedExercise,
+	randomExercise,
 }) => {
 	const router = useRouter()
 	const { isOpen, onClose, date } = useAddWorkoutModal()
@@ -203,6 +205,18 @@ const AddWorkoutModal: React.FC<AddWorkoutModalProps> = ({
 			}))
 		)
 	}, [changedExercise])
+
+	useEffect(() => {
+		setWorkoutExercises((exercises) =>
+			exercises.map((exercise) => ({
+				...exercise,
+				exerciseId:
+					exercise.rowId === randomExercise.rowId
+						? randomExercise.exerciseId
+						: exercise.exerciseId,
+			}))
+		)
+	}, [randomExercise])
 
 	return (
 		<Modal title='Add workout' isOpen={isOpen} onClose={onClose}>

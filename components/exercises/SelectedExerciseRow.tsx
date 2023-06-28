@@ -3,6 +3,7 @@
 import { WorkoutExercise } from '@prisma/client'
 import { ExternalLink } from 'lucide-react'
 import useExercises from '../../hooks/useExercises'
+import useRandomExerciseModal from '../../hooks/useRandomExerciseModal'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -38,6 +39,14 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 		exerciseId: exercise.exerciseId,
 	})
 
+	const { setRowId, onOpen: randomExerciseModalOpen } =
+		useRandomExerciseModal()
+
+	const onGenerateRandomExercise = () => {
+		setRowId(exercise.rowId)
+		randomExerciseModalOpen()
+	}
+
 	return (
 		<div
 			className={`
@@ -63,18 +72,30 @@ const SelectedExerciseRow: React.FC<SelectedExerciseRowProps> = ({
 			>
 				<p>Exercise</p>
 				{exercise.isEditing ? (
-					<Button
-						variant='outline'
-						className='flex justify-between w-full max-w-[70%]'
-						title={exerciseName}
-						onClick={() => onSetSelectedRowId(exercise.rowId)}
-					>
-						<p className='truncate'>
-							{exerciseName ? exerciseName : 'Select exercise...'}
-						</p>
+					<div className='flex gap-2 max-w-[80%]'>
+						<Button
+							variant='outline'
+							className='flex justify-between w-full min-w-[200px]'
+							title={exerciseName}
+							onClick={() => onSetSelectedRowId(exercise.rowId)}
+						>
+							<p className='truncate'>
+								{exerciseName
+									? exerciseName
+									: 'Select exercise...'}
+							</p>
 
-						<ExternalLink className='w-4 h-4 ml-2 opacity-50 shrink-0' />
-					</Button>
+							<ExternalLink className='w-4 h-4 ml-2 opacity-50 shrink-0' />
+						</Button>
+
+						<Button
+							variant='ghost'
+							title='Add random exercise'
+							onClick={onGenerateRandomExercise}
+						>
+							<Icons.dices size={20} />
+						</Button>
+					</div>
 				) : (
 					<p className='text-sm truncate text-muted-foreground'>
 						{exerciseName ? exerciseName : 'Exercise not selected'}

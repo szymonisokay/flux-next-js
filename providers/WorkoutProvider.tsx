@@ -3,6 +3,7 @@
 import { WorkoutExercise } from '@prisma/client'
 import { useState } from 'react'
 import AddWorkoutModal from '../components/modals/AddWorkoutModal'
+import RandomExerciseModal from '../components/modals/RandomExerciseModal'
 import SelectExerciseModal from '../components/modals/SelectExerciseModal'
 import { ChangedExercise } from '../interfaces/exercises.interface'
 
@@ -16,9 +17,16 @@ const WorkoutProvider: React.FC<WorkoutProviderProps> = ({ children }) => {
 	const [changedExercise, setChangedExercise] = useState<ChangedExercise>(
 		{} as ChangedExercise
 	)
+	const [randomExercise, setRandomExercise] = useState<ChangedExercise>(
+		{} as ChangedExercise
+	)
 
 	const onChangeExercise = (rowId: string, exerciseId: string) => {
 		setChangedExercise({ rowId, exerciseId })
+	}
+
+	const onGenerateRandomExercise = (rowId: string, exerciseId: string) => {
+		setRandomExercise({ rowId, exerciseId })
 	}
 
 	return (
@@ -26,12 +34,15 @@ const WorkoutProvider: React.FC<WorkoutProviderProps> = ({ children }) => {
 			<AddWorkoutModal
 				onSelectExercise={setSelectedWorkout}
 				changedExercise={changedExercise}
+				randomExercise={randomExercise}
 			/>
 			<SelectExerciseModal
 				exercise={selectedWorkout}
 				onChangeExercise={onChangeExercise}
 			/>
-
+			<RandomExerciseModal
+				onGenerateRandomExercise={onGenerateRandomExercise}
+			/>
 			{children}
 		</>
 	)
