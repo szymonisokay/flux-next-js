@@ -26,3 +26,8 @@ export interface ExerciseName {
 	id: string
 	exercise_name: string
 }
+
+export interface RandomExerciseData {
+	category?: string
+	muscle?: string
+}

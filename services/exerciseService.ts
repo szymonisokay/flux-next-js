@@ -1,6 +1,9 @@
 import { Exercise } from '@prisma/client'
 import axios from 'axios'
-import { ExerciseName } from '../interfaces/exercises.interface'
+import {
+	ExerciseName,
+	RandomExerciseData,
+} from '../interfaces/exercises.interface'
 import { PaginatedList } from '../interfaces/paginatedList.interface'
 
 const getExercises = async (page: number, pageSize: number, query: string) => {
@@ -21,4 +24,12 @@ const getExerciseNames = async () => {
 	return data as ExerciseName[]
 }
 
-export default { getExercises, getExerciseNames }
+const getRandomExercise = async (randomExerciseData: RandomExerciseData) => {
+	const { data } = await axios.post('/api/exercises/randomExercise', {
+		...randomExerciseData,
+	})
+
+	return data as Exercise
+}
+
+export default { getExercises, getExerciseNames, getRandomExercise }

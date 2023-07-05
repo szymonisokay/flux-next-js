@@ -1,0 +1,31 @@
+export const ExerciseCategoryList = [
+	'Barbell',
+	'Dumbbells',
+	'Kettlebells',
+	'Stretches',
+	'Cables',
+	'Band',
+	'Plate',
+	'TRX',
+	'Bodyweight',
+	'Yoga',
+	'Machine',
+]
+
+export const ExerciseMusclesList = [
+	'Biceps',
+	'Forearms',
+	'Shoulders',
+	'Triceps',
+	'Quads',
+	'Glutes',
+	'Lats',
+	'Mid back',
+	'Lower back',
+	'Hamstrings',
+	'Chest',
+	'Abdominals',
+	'Obliques',
+	'Traps',
+	'Calves',
+]
