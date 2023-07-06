@@ -2,7 +2,7 @@ import { Exercise } from '@prisma/client'
 import { PaginatedList } from '../interfaces/paginatedList.interface'
 import getCurrentUser from './getCurrentUser'
 
-import prisma from '@/libs/prismadb'
+import prisma from '@/lib/prismadb'
 
 export interface ISearchParams {
 	page: number

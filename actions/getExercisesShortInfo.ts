@@ -1,4 +1,4 @@
-import prisma from '@/libs/prismadb'
+import prisma from '@/lib/prismadb'
 import { ExerciseShortInfo } from '../interfaces/exercises.interface'
 import { PaginatedList } from '../interfaces/paginatedList.interface'
 import { ISearchParams } from './getExercises'

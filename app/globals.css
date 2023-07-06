@@ -77,4 +77,16 @@
 		@apply bg-background text-foreground;
 		@apply h-full;
 	}
+
+	::-webkit-scrollbar {
+		@apply w-[4px];
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-neutral-200;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-neutral-400;
+	}
 }

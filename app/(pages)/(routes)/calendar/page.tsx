@@ -1,6 +1,7 @@
-import { ISearchParams } from '../../actions/getExercises'
-import getWorkouts from '../../actions/getWorkouts'
-import CalendarClient from './CalendarClient'
+import { ISearchParams } from '@/actions/getExercises'
+import getWorkouts from '@/actions/getWorkouts'
+
+import CalendarClient from './calendar-client'
 
 const CalendarPage = async ({
 	searchParams,

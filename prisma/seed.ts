@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { apiOptions } from '../actions/getExercises'
 
+import prisma from '@/lib/prismadb'
 import { Exercise } from '@prisma/client'
-import prisma from '../libs/prismadb'
 
 async function main() {
-	const { data: exercises } = await axios.request<Exercise[]>(apiOptions)
+	const { data: exercises } = await axios.request<Exercise[]>({})
 
 	const data = exercises.map((exercise) => {
 		const { id, ...rest } = exercise

@@ -65,9 +65,9 @@ const SelectExerciseModal: React.FC<SelectExerciseModalProps> = ({
 		return () => clearTimeout(timeout)
 	}, [searchValue])
 
-	useEffect(() => {
-		fetchExercises()
-	}, [page, pageSize, query])
+	// useEffect(() => {
+	// 	fetchExercises()
+	// }, [page, pageSize, query])
 
 	useEffect(() => {
 		setSelectedExerciseId(exercise?.exerciseId ?? '')

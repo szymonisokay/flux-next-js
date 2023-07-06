@@ -1,18 +1,17 @@
 'use client'
 
 import { Exercise } from '@prisma/client'
-import { PaginatedList } from '../../interfaces/paginatedList.interface'
-
-import { useCallback, useEffect, useMemo, useState } from 'react'
-
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
-import Pagination from '../../components/custom/Pagination'
-import SearchBar from '../../components/custom/Searchbar'
-import Exercises from '../../components/exercises/Exercises'
-import { PaginationModel } from '../../interfaces/pagination.interface'
-import exerciseService from '../../services/exerciseService'
+
+import Pagination from '@/components/custom/Pagination'
+import SearchBar from '@/components/custom/Searchbar'
+import Exercises from '@/components/exercises/Exercises'
+import { PaginatedList } from '@/interfaces/paginatedList.interface'
+import { PaginationModel } from '@/interfaces/pagination.interface'
+import exerciseService from '@/services/exerciseService'
 
 const ExercisesClient = () => {
 	const params = useSearchParams()
@@ -97,7 +96,7 @@ const ExercisesClient = () => {
 	}, [page, pageSize, query])
 
 	return (
-		<div className='flex flex-col h-full gap-4 px-4 pt-20 pb-4 overflow-y-auto no-scrollbar'>
+		<div className='flex flex-col gap-4'>
 			<SearchBar value={searchValue} onChange={setSearchValue} />
 
 			{isLoading && (

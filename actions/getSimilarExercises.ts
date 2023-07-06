@@ -1,4 +1,4 @@
-import prisma from '@/libs/prismadb'
+import prisma from '@/lib/prismadb'
 
 export default async function getSimilarExercises(muscle?: string | null) {
 	if (!muscle) {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import getCurrentUser from '../../../actions/getCurrentUser'
 import { throwError } from '../../../utils/error'
 
-import prisma from '@/libs/prismadb'
+import prisma from '@/lib/prismadb'
 import { Exercise } from '@prisma/client'
 import { PaginatedList } from '../../../interfaces/paginatedList.interface'
 import { managePagination } from '../../../utils/managePagination'

@@ -1,12 +1,13 @@
 'use client'
 
 import { Exercise } from '@prisma/client'
-import TitleHeader from '../../../components/custom/TitleHeader'
-import Video from '../../../components/custom/Video'
-import ExerciseCard from '../../../components/exercises/ExerciseCard'
-import ExerciseMetaData from '../../../components/exercises/ExerciseMetaData'
-import { Icons } from '../../../components/icons'
-import { Button } from '../../../components/ui/button'
+
+import TitleHeader from '@/components/custom/TitleHeader'
+import Video from '@/components/custom/Video'
+import ExerciseCard from '@/components/exercises/ExerciseCard'
+import ExerciseMetaData from '@/components/exercises/ExerciseMetaData'
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 
 interface SingleExerciseClientProps {
 	exercise: Exercise | null

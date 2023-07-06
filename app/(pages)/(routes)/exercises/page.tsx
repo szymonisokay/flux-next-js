@@ -1,6 +1,7 @@
-import getCurrentUser from '../../actions/getCurrentUser'
-import Loading from '../loading'
-import ExercisesClient from './ExercisesClient'
+import ExercisesClient from './exercise-client'
+import Loading from './loading'
+
+import getCurrentUser from '@/actions/getCurrentUser'
 
 const ExercisesPage = async () => {
 	const currentUser = await getCurrentUser()

@@ -1,14 +1,14 @@
 'use client'
 
+import { Workout } from '@prisma/client'
 import { format, isEqual, startOfToday } from 'date-fns'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Workout } from '@prisma/client'
-import { Icons } from '../../components/icons'
-import WorkoutCard from '../../components/workouts/WorkoutCard'
-import useAddWorkoutModal from '../../hooks/useAddWorkoutModal'
+import WorkoutCard from '@/components/workouts/WorkoutCard'
+import useAddWorkoutModal from '@/hooks/useAddWorkoutModal'
 
 interface CalendatClientProps {
 	workouts: Workout[]
@@ -23,20 +23,21 @@ const CalendarClient: React.FC<CalendatClientProps> = ({ workouts }) => {
 		return workouts.filter((workout) => isEqual(workout.date, selectedDay))
 	}, [workouts, selectedDay])
 
-	const onDaySelected = useCallback((day: any) => {
+	const onDaySelected = (day: any) => {
 		if (day === undefined) return
 
 		setSelectedDay(day as Date)
-	}, [])
+	}
 
 	useEffect(() => {
 		addWorkoutModal.addDate(selectedDay as Date)
 	}, [selectedDay])
 
 	return (
-		<div className='px-4 pt-20 pb-4'>
+		<>
 			<p className='mb-6 text-lg font-semibold'>Workouts calendar</p>
 			<Calendar
+				className='p-0'
 				mode='single'
 				showOutsideDays
 				fixedWeeks
@@ -75,7 +76,7 @@ const CalendarClient: React.FC<CalendatClientProps> = ({ workouts }) => {
 					</Button>
 				</div>
 			)}
-		</div>
+		</>
 	)
 }
 
