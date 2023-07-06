@@ -52,8 +52,12 @@ const UserMenuModal: React.FC<UserMenuModalProps> = ({ currentUser }) => {
 		},
 	]
 
-	const body = (
-		<>
+	return (
+		<Modal
+			title='User menu'
+			isOpen={userMenuModal.isOpen}
+			onClose={userMenuModal.onClose}
+		>
 			<div className='flex items-center justify-between'>
 				<div className='flex items-center'>
 					<Avatar src={currentUser?.image} />
@@ -75,16 +79,7 @@ const UserMenuModal: React.FC<UserMenuModalProps> = ({ currentUser }) => {
 			<div className='flex flex-col pt-4'>
 				<Menu menuItems={menuItems} />
 			</div>
-		</>
-	)
-
-	return (
-		<Modal
-			title='User menu'
-			body={body}
-			isOpen={userMenuModal.isOpen}
-			onClose={userMenuModal.onClose}
-		/>
+		</Modal>
 	)
 }
 

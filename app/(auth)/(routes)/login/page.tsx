@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import getCurrentUser from '../../actions/getCurrentUser'
+import getCurrentUser from '../../../../actions/getCurrentUser'
 import LoginClient from './LoginClient'
 
 const LoginPage = async () => {

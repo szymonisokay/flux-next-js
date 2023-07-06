@@ -12,6 +12,7 @@
 		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.1.1",
 		"@next-auth/prisma-adapter": "^1.0.6",
 		"@prisma/client": "^4.14.1",
 		"@radix-ui/react-avatar": "^1.0.3",
@@ -40,7 +41,7 @@
 		"react": "18.2.0",
 		"react-day-picker": "^8.7.1",
 		"react-dom": "18.2.0",
-		"react-hook-form": "^7.43.9",
+		"react-hook-form": "^7.45.1",
 		"react-hot-toast": "^2.4.1",
 		"react-icons": "^4.8.0",
 		"react-merge-refs": "^2.0.2",
@@ -49,6 +50,7 @@
 		"tailwindcss": "3.3.2",
 		"tailwindcss-animate": "^1.0.6",
 		"uuid": "^9.0.0",
+		"zod": "^3.21.4",
 		"zustand": "^4.3.8"
 	},
 	"devDependencies": {
