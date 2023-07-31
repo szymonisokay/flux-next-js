@@ -2,8 +2,6 @@
 
 import { WorkoutExercise } from '@prisma/client'
 import { useState } from 'react'
-import AddWorkoutModal from '../components/modals/AddWorkoutModal'
-import SelectExerciseModal from '../components/modals/SelectExerciseModal'
 import { ChangedExercise } from '../interfaces/exercises.interface'
 
 interface WorkoutProviderProps {
@@ -23,14 +21,14 @@ const WorkoutProvider: React.FC<WorkoutProviderProps> = ({ children }) => {
 
 	return (
 		<>
-			<AddWorkoutModal
+			{/* <AddWorkoutModal
 				onSelectExercise={setSelectedWorkout}
 				changedExercise={changedExercise}
-			/>
-			<SelectExerciseModal
+			/> */}
+			{/* <SelectExerciseModal
 				exercise={selectedWorkout}
 				onChangeExercise={onChangeExercise}
-			/>
+			/> */}
 
 			{children}
 		</>

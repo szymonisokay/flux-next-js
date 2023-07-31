@@ -79,14 +79,18 @@
 	}
 
 	::-webkit-scrollbar {
-		@apply w-[4px];
+		@apply w-1 h-1;
 	}
 
 	::-webkit-scrollbar-track {
-		@apply bg-neutral-200;
+		@apply bg-neutral-200 rounded-lg;
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply bg-neutral-400;
+		@apply bg-neutral-400 rounded-lg;
+	}
+
+	.no-scroll ::-webkit-scrollbar {
+		@apply hidden;
 	}
 }

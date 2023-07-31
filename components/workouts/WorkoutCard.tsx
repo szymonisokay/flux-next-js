@@ -1,4 +1,5 @@
 import { Workout } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
@@ -9,12 +10,18 @@ interface WorkoutCardProps {
 }
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
+	const router = useRouter()
+
 	return (
 		<Card>
 			<CardHeader className='flex flex-row items-center justify-between p-4 pb-2'>
-				<p className='text-lg font-semibold'>{workout.title}</p>
+				<p className='text-lg font-semibold'>{workout.name}</p>
 
-				<Button variant='ghost' size='sm'>
+				<Button
+					variant='ghost'
+					size='sm'
+					onClick={() => router.push(`/workouts/${workout.id}`)}
+				>
 					<Icons.pencil size={20} />
 				</Button>
 			</CardHeader>
@@ -22,15 +29,15 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
 				<div className='flex items-center gap-2'>
 					<Icons.clock size={18} />
 					<p className='text-sm text-muted-foreground'>
-						{workout.workoutTime}
+						{workout.time}
 					</p>
 				</div>
 
-				{workout.workoutDuration && (
+				{workout.duration && (
 					<div className='flex items-center gap-2'>
 						<Icons.timer size={18} />
 						<p className='text-sm text-muted-foreground'>
-							{workout.workoutDuration}
+							{workout.duration}
 						</p>
 					</div>
 				)}

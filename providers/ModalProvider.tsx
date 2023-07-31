@@ -2,7 +2,6 @@
 
 import { User } from '@prisma/client'
 import React from 'react'
-import MenuModal from '../components/modals/MenuModal'
 import UserMenuModal from '../components/modals/UserMenuModal'
 
 interface ModalProviderProps {
@@ -16,9 +15,7 @@ const ModalProvider: React.FC<ModalProviderProps> = ({
 }) => {
 	return (
 		<>
-			<MenuModal />
 			<UserMenuModal currentUser={currentUser} />
-			{/* <AddWorkoutModal /> */}
 			{children}
 		</>
 	)

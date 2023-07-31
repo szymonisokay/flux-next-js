@@ -4,7 +4,7 @@ import useMenuModal from '../../hooks/useMenuModal'
 import { MenuItem } from '../../interfaces/menuItem.interface'
 import Menu from '../custom/Menu'
 import { Icons } from '../icons'
-import Modal from './Modal'
+import Modal from './modal'
 
 const MenuModal = () => {
 	const menuModal = useMenuModal()

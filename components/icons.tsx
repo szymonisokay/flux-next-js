@@ -66,6 +66,7 @@ export const Icons = {
 	flame: Flame,
 	timer: Timer,
 	clock: Clock3,
+	image: Image,
 	zap: Zap,
 	activity: Activity,
 	person: PersonStanding,

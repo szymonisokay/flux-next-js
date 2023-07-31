@@ -6,13 +6,7 @@ export default async function getSimilarExercises(muscle?: string | null) {
 	}
 
 	const query: any = {
-		target: {
-			is: {
-				Primary: {
-					has: muscle,
-				},
-			},
-		},
+		target: muscle,
 	}
 
 	const total = await prisma.exercise.count({ where: query })

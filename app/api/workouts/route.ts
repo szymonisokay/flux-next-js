@@ -12,9 +12,16 @@ export async function POST(request: Request) {
 		return throwError('Not authorized', 401)
 	}
 
-	const data = await request.json()
+	const { name, date, time } = await request.json()
 
-	const workout = await prisma.workout.create({ data })
+	const workout = await prisma.workout.create({
+		data: {
+			name,
+			date,
+			time,
+			userId: currentUser.id,
+		},
+	})
 
 	return NextResponse.json({
 		message: 'Workout created',

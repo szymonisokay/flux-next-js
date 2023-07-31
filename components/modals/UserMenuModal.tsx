@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { MenuItem } from '../../interfaces/menuItem.interface'
 import Menu from '../custom/Menu'
-import Modal from './Modal'
+import Modal from './modal'
 
 import { Icons } from '@/components/icons'
 import Avatar from '../custom/Avatar'

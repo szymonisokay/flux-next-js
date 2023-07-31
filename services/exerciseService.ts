@@ -1,14 +1,20 @@
 import { Exercise } from '@prisma/client'
 import axios from 'axios'
-import { ExerciseName } from '../interfaces/exercises.interface'
-import { PaginatedList } from '../interfaces/paginatedList.interface'
 
-const getExercises = async (page: number, pageSize: number, query: string) => {
+import { FormValues } from '@/components/modals/select-exercise-modal'
+import { ExerciseName } from '@/interfaces/exercises.interface'
+import { PaginatedList } from '@/interfaces/paginatedList.interface'
+
+const getExercises = async (
+	page: number,
+	pageSize: number,
+	filters: FormValues
+) => {
 	const { data } = await axios.get('/api/exercises', {
 		params: {
 			page,
 			pageSize,
-			query,
+			...filters,
 		},
 	})
 
@@ -21,4 +27,10 @@ const getExerciseNames = async () => {
 	return data as ExerciseName[]
 }
 
-export default { getExercises, getExerciseNames }
+const getExercise = async (exerciseId: string) => {
+	const { data } = await axios.get(`/api/exercises/${exerciseId}`)
+
+	return data as Exercise
+}
+
+export default { getExercises, getExerciseNames, getExercise }

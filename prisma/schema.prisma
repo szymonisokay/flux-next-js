@@ -22,6 +22,7 @@ model User {
   roles String[]
 
   accounts Account[]
+  workouts Workout[]
 }
 
 model Account {
@@ -45,45 +46,66 @@ model Account {
 
 model Exercise {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  Aka String?
-  Category String?
-	Difficulty String?
-	Force String?
-	Grips String?
-	details String?
-	exercise_name String?
-	steps String[]
-	target ExerciseTarget
-	videoURL String[]
-	youtubeURL String?
+  bodyPart String
+  equipment String
+  gifUrl String
+  name String
+  target String
+
+  workoutExercises WorkoutExercise[]
 }
 
-type ExerciseTarget {
-  Primary String[]
-  Secondary String[]
-  Tertiary String[]
+model ExerciseEquipment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model ExerciseMuscle {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model ExerciseBodyPart {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
 }
 
 model Workout {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  exercises WorkoutExercise[]
+  userId String @db.ObjectId
+  name String
   date DateTime
-  workoutTime String?
-  workoutDuration Int?
+  time String?
+  duration String?
   weight Int?
-  photos String[]
+  isCompleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  exercises WorkoutExercise[]
+  images WorkoutImages?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-type WorkoutExercise {
-  exerciseId String?
-  isEditing Boolean
-  rowId String
+model WorkoutExercise {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  workoutId String @db.ObjectId 
+  exerciseId String @db.ObjectId
   sets SetModel[]
+
+  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model WorkoutImages {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  workoutId String @db.ObjectId @unique
+  images String[]
+
+  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
 type SetModel {
-  setRowId String
   reps Int? @default(0)
   weight Int? @default(0)
 }

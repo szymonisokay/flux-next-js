@@ -16,7 +16,7 @@ import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Input } from '../ui/input'
-import Modal from './Modal'
+import Modal from './modal'
 
 interface AddWorkoutModalProps {
 	onSelectExercise: (exercise: WorkoutExercise) => void

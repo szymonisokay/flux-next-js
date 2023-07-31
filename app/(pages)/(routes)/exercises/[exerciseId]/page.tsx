@@ -9,9 +9,7 @@ interface IParams {
 
 const SingleExercisePage = async ({ params }: { params: IParams }) => {
 	const exercise = await getExerciseById(params)
-	const similarExercises = await getSimilarExercises(
-		exercise?.target?.Primary[0]
-	)
+	const similarExercises = await getSimilarExercises(exercise?.target)
 
 	return (
 		<SingleExerciseClient

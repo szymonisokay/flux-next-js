@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 	const exercises = await prisma.exercise.findMany({
 		select: {
 			id: true,
-			exercise_name: true,
+			name: true,
 		},
 	})
 

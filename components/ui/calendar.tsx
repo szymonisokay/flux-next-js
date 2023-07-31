@@ -10,7 +10,7 @@ import { Workout } from '@prisma/client'
 import { format, isEqual } from 'date-fns'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-	workouts: Workout[]
+	workouts?: Workout[]
 }
 
 function Calendar({
@@ -64,7 +64,7 @@ function Calendar({
 				DayContent: ({ date, ...props }) => (
 					<div className='relative'>
 						<span>{format(date, 'd')}</span>
-						{workouts.some((workout) =>
+						{workouts?.some((workout) =>
 							isEqual(workout.date, date)
 						) && (
 							<div className=' absolute w-[5px] h-[5px] -top-[4px] -right-[5px] rounded-full bg-red-700'></div>

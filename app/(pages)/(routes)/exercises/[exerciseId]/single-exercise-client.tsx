@@ -1,11 +1,12 @@
 'use client'
 
+import ExercisePlaceholder from '@/public/images/exercise-placeholder.png'
 import { Exercise } from '@prisma/client'
+import Image from 'next/image'
 
 import TitleHeader from '@/components/custom/TitleHeader'
-import Video from '@/components/custom/Video'
-import ExerciseCard from '@/components/exercises/ExerciseCard'
-import ExerciseMetaData from '@/components/exercises/ExerciseMetaData'
+import ExerciseCard from '@/components/exercises/exercise-card'
+import ExerciseMetaData from '@/components/exercises/exercise-meta-data'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 
@@ -24,23 +25,24 @@ const SingleExerciseClient: React.FC<SingleExerciseClientProps> = ({
 
 	return (
 		<div className='flex flex-col gap-4'>
-			<TitleHeader title={exercise.exercise_name}>
+			<TitleHeader title={exercise.name}>
 				<Button variant='outline' size='sm'>
 					<Icons.add size={20} />
 				</Button>
 			</TitleHeader>
 
-			<Video controls src={exercise.videoURL[0]} />
+			<div className='relative h-[300px]'>
+				<Image
+					priority
+					fill
+					src={exercise.gifUrl || ExercisePlaceholder}
+					alt={exercise.name}
+				/>
+			</div>
 
 			<div className='flex flex-col gap-4'>
 				<p className='text-base font-semibold'>Basic information</p>
-				<div className='px-2'>
-					<ExerciseMetaData
-						category={exercise.Category}
-						difficulty={exercise.Difficulty}
-						muscle={exercise.target.Primary[0]}
-					/>
-				</div>
+				<ExerciseMetaData exercise={exercise} />
 			</div>
 
 			<div className='flex flex-col gap-4'>
@@ -49,7 +51,10 @@ const SingleExerciseClient: React.FC<SingleExerciseClientProps> = ({
 					<div className='flex gap-4 pb-4 overfow-x-hidden'>
 						{similarExercises &&
 							similarExercises.map((exercise) => (
-								<ExerciseCard key={exercise.id} {...exercise} />
+								<ExerciseCard
+									key={exercise.id}
+									exercise={exercise}
+								/>
 							))}
 					</div>
 				</div>
