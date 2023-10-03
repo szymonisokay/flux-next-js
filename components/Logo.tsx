@@ -1,12 +1,12 @@
 import Image, { ImageProps } from 'next/image'
-import React from 'react'
-import logo from '../public/images/Logo.png'
 
-interface LogoProps extends ImageProps {
+import logo from '@/public/images/Logo.png'
+
+type Props = ImageProps & {
 	small?: boolean
 }
 
-const Logo: React.FC<LogoProps> = ({ small, ...props }) => {
+export const Logo = ({ small, ...props }: Props) => {
 	return (
 		<Image
 			{...props}
@@ -17,5 +17,3 @@ const Logo: React.FC<LogoProps> = ({ small, ...props }) => {
 		/>
 	)
 }
-
-export default Logo

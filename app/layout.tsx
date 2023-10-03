@@ -1,18 +1,15 @@
+import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 
-import getCurrentUser from '@/actions/getCurrentUser'
-import { Sidebar } from '@/components/custom/sidebar'
-import Navbar from '@/components/navbar/Navbar'
-import ModalProvider from '@/providers/ModalProvider'
-import WorkoutProvider from '@/providers/WorkoutProvider'
+import { ClientOnly } from '@/components/client-only'
 
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-	title: 'Flux',
+	title: 'Flux exercises',
 	description: 'Level up your gym experience',
 }
 
@@ -21,18 +18,15 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const currentUser = await getCurrentUser()
-
 	return (
-		<html lang='en'>
-			<body className={`${inter.className}`}>
-				<Toaster position='top-center' reverseOrder={true} />
-				<Navbar currentUser={currentUser} />
-				<Sidebar />
-				<ModalProvider currentUser={currentUser}>
-					<WorkoutProvider>{children}</WorkoutProvider>
-				</ModalProvider>
-			</body>
-		</html>
+		<ClerkProvider>
+			<html lang='en'>
+				<body className={`${inter.className}`}>
+					<Toaster position='top-center' reverseOrder={true} />
+
+					<ClientOnly>{children}</ClientOnly>
+				</body>
+			</html>
+		</ClerkProvider>
 	)
 }

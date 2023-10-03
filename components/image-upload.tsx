@@ -5,12 +5,12 @@ import { CldUploadWidget } from 'next-cloudinary'
 
 import { Button } from '@/components/ui/button'
 
-interface ImageUploadProps {
+type Props = {
 	value: string[]
 	onChange: (url: string) => void
 }
 
-export const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
+export const ImageUpload = ({ value, onChange }: Props) => {
 	const onUpload = (result: any) => {
 		console.log(result)
 	}
