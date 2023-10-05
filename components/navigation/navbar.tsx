@@ -11,7 +11,7 @@ export const Navbar = () => {
 
 			<div className='flex items-center gap-x-2'>
 				<Button variant='ghost' size='icon'>
-					<BellIcon className='w-5 h-5 text-slate-800' />
+					<BellIcon className='w-5 h-5 ' />
 				</Button>
 
 				<UserButton

@@ -2,7 +2,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 
-import { ClientOnly } from '@/components/client-only'
+import { ClientOnlyProvider } from '@/components/providers/client-only-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
 
 import './globals.css'
 
@@ -24,7 +25,17 @@ export default async function RootLayout({
 				<body className={`${inter.className}`}>
 					<Toaster position='top-center' reverseOrder={true} />
 
-					<ClientOnly>{children}</ClientOnly>
+					<ClientOnlyProvider>
+						<ThemeProvider
+							attribute='class'
+							defaultTheme='system'
+							forcedTheme='light'
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+						</ThemeProvider>
+					</ClientOnlyProvider>
 				</body>
 			</html>
 		</ClerkProvider>

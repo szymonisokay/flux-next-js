@@ -6,7 +6,7 @@ type Props = {
 	children: React.ReactNode
 }
 
-export const ClientOnly = ({ children }: Props) => {
+export const ClientOnlyProvider = ({ children }: Props) => {
 	const [hasMounted, setHasMounted] = useState<boolean>(false)
 
 	useEffect(() => {

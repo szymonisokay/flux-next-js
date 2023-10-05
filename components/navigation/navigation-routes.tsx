@@ -29,8 +29,9 @@ export const NavigationRoutes = () => {
 					prefetch={false}
 					href={href}
 					className={cn(
-						'flex gap-x-2 px-4 py-2 items-center duration-200 text-slate-500 hover:text-slate-900  rounded-md',
-						pathname === href && 'text-slate-900 bg-slate-300/30'
+						'flex gap-x-2 px-4 py-2 items-center duration-200 text-muted-foreground hover:text-primary rounded-md',
+						pathname === href &&
+							'text-primary bg-primary-foreground'
 					)}
 				>
 					<Icon className='w-5 h-5' />

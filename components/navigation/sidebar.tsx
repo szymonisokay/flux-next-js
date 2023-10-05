@@ -17,17 +17,18 @@ export const Sidebar = () => {
 		<Sheet>
 			<SheetTrigger asChild>
 				<Button variant='ghost' size='icon'>
-					<MenuIcon className='w-5 h-5 text-slate-800' />
+					<MenuIcon className='w-5 h-5 ' />
 				</Button>
 			</SheetTrigger>
 			<SheetContent side='left' className='p-4'>
 				<div className='flex items-center justify-between'>
 					<Link prefetch={false} href='/' className='block max-w-max'>
 						<Image
-							src='/images/logo.png'
+							src='/images/logo.svg'
 							alt='logo'
 							width={130}
 							height={70}
+							className='fill-red-500'
 						/>
 					</Link>
 
