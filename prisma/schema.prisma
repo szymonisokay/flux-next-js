@@ -6,106 +6,36 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String? @unique
-  emailVerified DateTime?
-  image String?
-  password String?
+model Profile {
+  id        String @id @default(uuid())
+  userId    String @unique
+  name      String
+  email     String @db.Text
+  image     String? @db.Text
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  roles String[]
 
-  accounts Account[]
-  workouts Workout[]
-}
-
-model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  type String
-  provider String
-  providerAccountId String
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.String
-  session_state String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Exercise {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  bodyPart String
-  equipment String
-  gifUrl String
-  name String
-  target String
-
-  workoutExercises WorkoutExercise[]
-}
-
-model ExerciseEquipment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-}
-
-model ExerciseMuscle {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-}
-
-model ExerciseBodyPart {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  workouts  Workout[]
 }
 
 model Workout {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  name String
-  date DateTime
-  time String?
-  duration String?
-  weight Int?
-  isCompleted Boolean @default(false)
+  id  String @id @default(uuid())
+  name  String 
+  description String?
+  date      String
+  duration  String?
+  start     String?
+  end       String?
+  weight    Float?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  exercises WorkoutExercise[]
-  images WorkoutImages?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model WorkoutExercise {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  workoutId String @db.ObjectId 
-  exerciseId String @db.ObjectId
-  sets SetModel[]
-
-  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  exercise Exercise @relation(fields: [exerciseId], references: [id])
-}
-
-model WorkoutImages {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  workoutId String @db.ObjectId @unique
-  images String[]
-
-  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-}
-
-type SetModel {
-  reps Int? @default(0)
-  weight Int? @default(0)
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }

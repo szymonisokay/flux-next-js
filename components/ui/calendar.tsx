@@ -6,18 +6,13 @@ import { DayPicker } from 'react-day-picker'
 
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Workout } from '@prisma/client'
-import { format, isEqual } from 'date-fns'
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-	workouts?: Workout[]
-}
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
 function Calendar({
 	className,
 	classNames,
 	showOutsideDays = true,
-	workouts,
 	...props
 }: CalendarProps) {
 	return (
@@ -60,16 +55,6 @@ function Calendar({
 				IconLeft: ({ ...props }) => <ChevronLeft className='w-4 h-4' />,
 				IconRight: ({ ...props }) => (
 					<ChevronRight className='w-4 h-4' />
-				),
-				DayContent: ({ date, ...props }) => (
-					<div className='relative'>
-						<span>{format(date, 'd')}</span>
-						{workouts?.some((workout) =>
-							isEqual(workout.date, date)
-						) && (
-							<div className=' absolute w-[5px] h-[5px] -top-[4px] -right-[5px] rounded-full bg-red-700'></div>
-						)}
-					</div>
 				),
 			}}
 			{...props}

@@ -26,16 +26,18 @@ export const NavigationRoutes = () => {
 		<div className='flex flex-col mt-10 gap-y-2'>
 			{routes.map(({ label, href, icon: Icon }) => (
 				<Link
+					key={href}
 					prefetch={false}
 					href={href}
 					className={cn(
 						'flex gap-x-2 px-4 py-2 items-center duration-200 text-muted-foreground hover:text-primary rounded-md',
-						pathname === href &&
+						(pathname === href ||
+							(href !== '/' && pathname.includes(href))) &&
 							'text-primary bg-primary-foreground'
 					)}
 				>
 					<Icon className='w-5 h-5' />
-					<span>{label}</span>
+					<span className='text-sm'>{label}</span>
 				</Link>
 			))}
 		</div>
