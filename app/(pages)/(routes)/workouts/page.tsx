@@ -4,6 +4,8 @@ import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
+import { WorkoutsWrapper } from './_components/workouts-wrapper'
+
 const WorkoutsPage = async () => {
 	const profile = await getProfile()
 
@@ -14,6 +16,9 @@ const WorkoutsPage = async () => {
 	const workouts = await prisma.workout.findMany({
 		where: {
 			profileId: profile.id,
+		},
+		orderBy: {
+			date: 'asc',
 		},
 	})
 
@@ -26,9 +31,7 @@ const WorkoutsPage = async () => {
 				actionHref='/workouts/new'
 			/>
 
-			{workouts.map((workout) => (
-				<p>{workout.name}</p>
-			))}
+			<WorkoutsWrapper workouts={workouts} />
 		</>
 	)
 }

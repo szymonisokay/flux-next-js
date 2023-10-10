@@ -3,10 +3,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Workout } from '@prisma/client'
 import axios from 'axios'
+import { format } from 'date-fns'
+import { CalendarIcon, Loader2Icon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
 	Form,
 	FormControl,
@@ -21,11 +25,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { Textarea } from '@/components/ui/textarea'
-import { format } from 'date-fns'
-import { CalendarIcon, Loader2Icon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { Calendar } from '../../../../../components/ui/calendar'
-import { cn } from '../../../../../lib/utils'
+import { cn } from '@/lib/utils'
 
 const formSchema = z.object({
 	name: z.string().nonempty(),
@@ -39,7 +39,7 @@ type Props = {
 	workout: Workout | null
 }
 
-export const Client = ({ workout }: Props) => {
+export const CreateWorkoutForm = ({ workout }: Props) => {
 	const router = useRouter()
 
 	const form = useForm<FormValues>({
@@ -164,7 +164,7 @@ export const Client = ({ workout }: Props) => {
 					{loading && (
 						<Loader2Icon className='w-4 h-4 mr-2 animate-spin' />
 					)}
-					{workout ? 'Update' : 'Create'}
+					Create
 				</Button>
 			</form>
 		</Form>

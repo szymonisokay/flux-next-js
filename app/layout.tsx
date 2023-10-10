@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { ClientOnlyProvider } from '@/components/providers/client-only-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 
+// import 'tw-elements-react/dist/css/tw-elements-react.min.css'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })

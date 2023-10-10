@@ -7,7 +7,7 @@ type Props = {
 
 export const Heading = ({ title, description }: Props) => {
 	return (
-		<div className='max-w-[170px]'>
+		<div>
 			<h2
 				title={title}
 				className='text-lg font-semibold leading-tight tracking-tight'

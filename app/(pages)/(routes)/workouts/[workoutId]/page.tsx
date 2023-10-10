@@ -1,10 +1,9 @@
 import { redirectToSignIn } from '@clerk/nextjs'
 
+import { CreateWorkoutForm } from '@/components/forms/create-workout-form'
 import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
-
-import { Client } from './client'
 
 const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 	const profile = await getProfile()
@@ -13,9 +12,10 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 		return redirectToSignIn()
 	}
 
-	const workout = await prisma.workout.findUnique({
+	const workout = await prisma.workout.findFirst({
 		where: {
 			id: params.workoutId,
+			profileId: profile.id,
 		},
 	})
 
@@ -26,7 +26,7 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 				description='Fill in all required details'
 			/>
 
-			<Client workout={workout} />
+			<CreateWorkoutForm workout={workout} />
 		</>
 	)
 }
