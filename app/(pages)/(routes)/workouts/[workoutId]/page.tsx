@@ -5,6 +5,9 @@ import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
+import { WorkoutActions } from './_components/workout-actions'
+import { WorkoutDetails } from './_components/workout-details'
+
 const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 	const profile = await getProfile()
 
@@ -17,16 +20,30 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 			id: params.workoutId,
 			profileId: profile.id,
 		},
+		include: {
+			trainings: true,
+		},
 	})
 
 	return (
 		<>
-			<PageHeader
-				title='Create workout'
-				description='Fill in all required details'
-			/>
+			<div className='flex items-center justify-between gap-x-4'>
+				<PageHeader
+					title={!workout ? 'Create workout' : workout.name}
+					description={
+						!workout
+							? 'Fill in all required details'
+							: 'Your workout information'
+					}
+				/>
+				{workout && <WorkoutActions />}
+			</div>
 
-			<CreateWorkoutForm workout={workout} />
+			{!workout ? (
+				<CreateWorkoutForm workout={workout} />
+			) : (
+				<WorkoutDetails workout={workout} />
+			)}
 		</>
 	)
 }

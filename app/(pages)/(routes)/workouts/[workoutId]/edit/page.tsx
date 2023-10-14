@@ -22,6 +22,9 @@ const WorkoutEditPage = async ({
 			id: params.workoutId,
 			profileId: profile.id,
 		},
+		include: {
+			trainings: true,
+		},
 	})
 
 	if (!workout) {

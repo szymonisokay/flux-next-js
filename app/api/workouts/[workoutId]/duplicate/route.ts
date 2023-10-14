@@ -18,6 +18,13 @@ export async function POST(
 			where: {
 				id: params.workoutId,
 			},
+			include: {
+				trainings: {
+					include: {
+						sets: true,
+					},
+				},
+			},
 		})
 
 		if (!workoutToDuplicate) {
@@ -27,7 +34,28 @@ export async function POST(
 		const { id, createdAt, updatedAt, ...workout } = workoutToDuplicate
 
 		await prisma.workout.create({
-			data: { ...workout, name: `${workout.name} - duplicated` },
+			data: {
+				...workout,
+				name: `${workout.name} - duplicated`,
+				completed: false,
+				trainings: {
+					create: workout.trainings.map(
+						({ duration, exerciseId, sets }) => ({
+							duration,
+							exerciseId,
+							sets: {
+								createMany: {
+									data: sets.map(({ reps, weight }) => ({
+										reps,
+										weight,
+										completed: false,
+									})),
+								},
+							},
+						})
+					),
+				},
+			},
 		})
 
 		return NextResponse.json(true)

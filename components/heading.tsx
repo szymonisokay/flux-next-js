@@ -7,7 +7,7 @@ type Props = {
 
 export const Heading = ({ title, description }: Props) => {
 	return (
-		<div>
+		<div className='w-full'>
 			<h2
 				title={title}
 				className='text-lg font-semibold leading-tight tracking-tight'
@@ -16,7 +16,7 @@ export const Heading = ({ title, description }: Props) => {
 			</h2>
 			<p
 				title={description}
-				className='text-sm leading-normal tracking-tight truncate text-secondary'
+				className='text-sm leading-tight tracking-tight truncate whitespace-pre-wrap text-secondary'
 			>
 				{description}
 			</p>

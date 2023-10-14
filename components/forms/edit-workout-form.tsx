@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Workout } from '@prisma/client'
+import { Training, Workout } from '@prisma/client'
 import axios from 'axios'
 import { format } from 'date-fns'
 import {
@@ -58,7 +58,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 type Props = {
-	workout: Workout
+	workout: Workout & {
+		trainings: Training[]
+	}
 }
 
 export const EditWorkoutForm = ({ workout }: Props) => {
@@ -248,7 +250,9 @@ export const EditWorkoutForm = ({ workout }: Props) => {
 							className='justify-start w-full'
 						>
 							<DumbbellIcon className='w-4 h-4 mr-2' />
-							<span>Manage exercises</span>
+							<span>
+								Manage exercises ({workout.trainings.length})
+							</span>
 
 							<ExternalLinkIcon className='w-4 h-4 ml-auto text-secondary' />
 						</Button>

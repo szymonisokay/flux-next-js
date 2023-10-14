@@ -23,9 +23,9 @@ export const WorkoutCard = ({ workout, highlighted }: Props) => {
 				highlighted && 'bg-muted'
 			)}
 		>
-			<div className='flex items-start justify-between'>
+			<div className='flex items-start justify-between gap-x-4'>
 				<div>
-					<Link href={`/workouts/${id}/edit`}>
+					<Link href={`/workouts/${id}`}>
 						<h3 className='text-lg font-semibold leading-tight text-primary'>
 							{name}
 						</h3>

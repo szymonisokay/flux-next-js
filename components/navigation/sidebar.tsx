@@ -1,4 +1,6 @@
 import { MenuIcon, XIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -8,8 +10,6 @@ import {
 	SheetTrigger,
 } from '@/components/ui/sheet'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import { NavigationRoutes } from './navigation-routes'
 
 export const Sidebar = () => {

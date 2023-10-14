@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 
 export const Navbar = () => {
 	return (
-		<header className='fixed top-0 left-0 flex items-center justify-between w-full px-4 py-3 border-b backdrop-blur-sm'>
+		<header className='fixed top-0 left-0 z-50 flex items-center justify-between w-full px-4 py-3 border-b backdrop-blur-sm'>
 			<Sidebar />
 
 			<div className='flex items-center gap-x-2'>
