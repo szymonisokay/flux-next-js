@@ -1,18 +1,15 @@
-import { redirectToSignIn } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 import { CreateWorkoutForm } from '@/components/forms/create-workout-form'
 import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
-import { WorkoutActions } from './_components/workout-actions'
-import { WorkoutDetails } from './_components/workout-details'
-
 const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 	const profile = await getProfile()
 
 	if (!profile) {
-		return redirectToSignIn()
+		return redirect('/')
 	}
 
 	const workout = await prisma.workout.findFirst({
@@ -20,30 +17,20 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 			id: params.workoutId,
 			profileId: profile.id,
 		},
-		include: {
-			trainings: true,
-		},
 	})
+
+	// if (!workout) {
+	// 	return redirect('/workouts')
+	// }
 
 	return (
 		<>
-			<div className='flex items-center justify-between gap-x-4'>
-				<PageHeader
-					title={!workout ? 'Create workout' : workout.name}
-					description={
-						!workout
-							? 'Fill in all required details'
-							: 'Your workout information'
-					}
-				/>
-				{workout && <WorkoutActions />}
-			</div>
+			<PageHeader
+				title='Create workout'
+				description='Fill in all required details'
+			/>
 
-			{!workout ? (
-				<CreateWorkoutForm workout={workout} />
-			) : (
-				<WorkoutDetails workout={workout} />
-			)}
+			<CreateWorkoutForm />
 		</>
 	)
 }

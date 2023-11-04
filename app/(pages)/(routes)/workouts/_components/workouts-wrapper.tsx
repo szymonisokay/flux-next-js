@@ -107,6 +107,7 @@ export const WorkoutsWrapper = ({ workouts }: Props) => {
 					</div>
 				))}
 
+				{/* TODO: Display when at least one workout */}
 				<div className='absolute top-0 w-1 h-full rounded-full left-1 bg-muted' />
 			</div>
 		</ScrollArea>

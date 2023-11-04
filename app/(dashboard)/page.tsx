@@ -1,18 +1,21 @@
-import { redirectToSignIn } from '@clerk/nextjs'
 import { compareDesc, format, isToday } from 'date-fns'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 import { Heading } from '@/components/heading'
 import { CreateWorkoutCard } from '@/components/workout/create-workout-card'
 import { WorkoutCard } from '@/components/workout/workout-card'
+import { createProfile } from '@/lib/create-profile'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
-import Link from 'next/link'
 
 const DashboardPage = async () => {
+	await createProfile()
+
 	const profile = await getProfile()
 
 	if (!profile) {
-		return redirectToSignIn()
+		return redirect('/')
 	}
 
 	const workouts = await prisma.workout.findMany({

@@ -1,8 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2Icon } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { SearchIcon } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import qs from 'query-string'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -15,6 +15,8 @@ import {
 	FormItem,
 	FormLabel,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
 	Select,
 	SelectContent,
@@ -22,45 +24,47 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { bodyParts, equipment, targets } from '@/config/exercise-config'
+import { bodyParts, equipments, targets } from '@/config/exercise-config'
+import { useFilters } from '@/hooks/use-filters'
+import { useModal } from '@/hooks/use-modal'
 
 const formSchema = z.object({
+	query: z.string().optional(),
 	bodyPart: z.string().optional(),
 	equipment: z.string().optional(),
 	target: z.string().optional(),
-	exercisesNumber: z.string().nonempty(),
 })
 
 type FormValues = z.infer<typeof formSchema>
 
-export const AddExerciseForm = () => {
+export const ExerciseFiltersForm = () => {
 	const router = useRouter()
 	const pathname = usePathname()
-	const searchParams = useSearchParams()
+	const { setClose } = useModal()
+	const { query, bodyPart, equipment, target } = useFilters()
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			bodyPart: searchParams.get('bodyPart') || '',
-			equipment: searchParams.get('equipment') || '',
-			target: searchParams.get('target') || '',
-			exercisesNumber: searchParams.get('exercisesNumber') || '3',
+			query,
+			bodyPart,
+			equipment,
+			target,
 		},
 	})
-
-	const loading = form.formState.isSubmitting
 
 	const onSubmit = async (values: FormValues) => {
 		const url = qs.stringifyUrl(
 			{
 				url: pathname,
-				query: { ...values, generate: true },
+				query: values,
 			},
 			{ skipEmptyString: true, skipNull: true }
 		)
 
-		router.replace(url)
+		router.push(url)
 		router.refresh()
+		setClose()
 	}
 
 	return (
@@ -69,7 +73,32 @@ export const AddExerciseForm = () => {
 				className='flex flex-col'
 				onSubmit={form.handleSubmit(onSubmit)}
 			>
-				<div className='grid grid-cols-2 gap-4 py-4 lg:grid-cols-4'>
+				<FormField
+					control={form.control}
+					name='query'
+					render={({ field }) => (
+						<FormItem className='relative w-full space-y-0'>
+							<FormControl>
+								<>
+									<Label
+										htmlFor='search'
+										className='absolute cursor-pointer top-3 left-3'
+									>
+										<SearchIcon className='w-4 h-4' />
+									</Label>
+									<Input
+										{...field}
+										id='search'
+										placeholder='Search exercise...'
+										className='pl-9'
+									/>
+								</>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+
+				<div className='grid grid-cols-1 gap-4 py-4'>
 					<FormField
 						control={form.control}
 						name='bodyPart'
@@ -138,7 +167,7 @@ export const AddExerciseForm = () => {
 										>
 											Select equipment
 										</SelectItem>
-										{equipment.map((value) => (
+										{equipments.map((value) => (
 											<SelectItem
 												key={value}
 												value={value}
@@ -192,49 +221,8 @@ export const AddExerciseForm = () => {
 							</FormItem>
 						)}
 					/>
-
-					<FormField
-						control={form.control}
-						name='exercisesNumber'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>No. of exercises</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder='Select target' />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent className='max-h-[250px]'>
-										{['3', '4', '5', '6', '7'].map(
-											(value) => (
-												<SelectItem
-													key={value}
-													value={value}
-												>
-													{value}
-												</SelectItem>
-											)
-										)}
-									</SelectContent>
-								</Select>
-							</FormItem>
-						)}
-					/>
 				</div>
-				<Button
-					variant='colored'
-					disabled={loading}
-					className='sm:self-end'
-				>
-					{loading && (
-						<Loader2Icon className='w-4 h-4 mr-2 animate-spin' />
-					)}
-					Generate
-				</Button>
+				<Button variant='colored'>Filter</Button>
 			</form>
 		</Form>
 	)

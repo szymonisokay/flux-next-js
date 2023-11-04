@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Workout } from '@prisma/client'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2Icon } from 'lucide-react'
@@ -35,16 +34,12 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-type Props = {
-	workout: Workout | null
-}
-
-export const CreateWorkoutForm = ({ workout }: Props) => {
+export const CreateWorkoutForm = () => {
 	const router = useRouter()
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: workout || {
+		defaultValues: {
 			name: '',
 			description: '',
 			date: '',

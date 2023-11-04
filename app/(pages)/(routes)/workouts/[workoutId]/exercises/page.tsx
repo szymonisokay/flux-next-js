@@ -5,8 +5,8 @@ import { PageHeader } from '@/components/page-header'
 import { Tooltip } from '@/components/tooltip'
 import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
-import { redirectToSignIn } from '@clerk/nextjs'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { getProfile } from '../../../../../../lib/get-profile'
 
 const WorkoutExercisesPage = async ({
@@ -17,7 +17,7 @@ const WorkoutExercisesPage = async ({
 	const profile = await getProfile()
 
 	if (!profile) {
-		return redirectToSignIn()
+		return redirect('/')
 	}
 
 	const workout = await prisma.workout.findUnique({
@@ -34,6 +34,10 @@ const WorkoutExercisesPage = async ({
 		},
 	})
 
+	if (!workout) {
+		redirect('/workouts')
+	}
+
 	return (
 		<>
 			<div className='flex items-center justify-between mb-4 gap-x-4'>
@@ -45,20 +49,34 @@ const WorkoutExercisesPage = async ({
 				<Tooltip label='Add exercise'>
 					<Link replace href={'exercises/add'}>
 						<Button variant='colored' size='sm'>
-							<PlusIcon className='w-5 h-5' />
+							<PlusIcon className='w-4 h-4' />
 						</Button>
 					</Link>
 				</Tooltip>
 			</div>
 
-			<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-				{workout?.trainings.map((training) => (
-					<ExerciseCardWithDetails
-						key={training.id}
-						training={training}
-					/>
-				))}
-			</div>
+			{!workout.trainings.length ? (
+				<div className='flex flex-col items-center justify-center w-full gap-2 mt-20'>
+					<p className='text-lg font-semibold tracking-tight'>
+						You have no exercises
+					</p>
+					<Link href={'exercises/add'}>
+						<Button variant='colored' size='sm'>
+							<PlusIcon className='w-4 h-4 mr-2' />
+							Add new
+						</Button>
+					</Link>
+				</div>
+			) : (
+				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+					{workout.trainings.map((training) => (
+						<ExerciseCardWithDetails
+							key={training.id}
+							training={training}
+						/>
+					))}
+				</div>
+			)}
 		</>
 	)
 }

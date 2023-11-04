@@ -19,18 +19,18 @@ export const WorkoutCard = ({ workout, highlighted }: Props) => {
 	return (
 		<div
 			className={cn(
-				'p-4 mt-2 border rounded-md hover:bg-muted duration-200 group',
+				'p-4 mt-2 border rounded-md hover:bg-muted duration-200 group max-w-sm',
 				highlighted && 'bg-muted'
 			)}
 		>
 			<div className='flex items-start justify-between gap-x-4'>
 				<div>
-					<Link href={`/workouts/${id}`}>
+					<Link href={`/workouts/${id}/edit`}>
 						<h3 className='text-lg font-semibold leading-tight text-primary'>
 							{name}
 						</h3>
 					</Link>
-					<p className='text-sm truncate text-secondary'>
+					<p className='text-sm truncate whitespace-pre-wrap text-secondary'>
 						{description}
 					</p>
 				</div>

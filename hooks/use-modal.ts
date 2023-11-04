@@ -1,7 +1,7 @@
 import { Exercise } from '@prisma/client'
 import { create } from 'zustand'
 
-type ModalType = 'imagePreview' | 'addExercise'
+type ModalType = 'imagePreview' | 'addExercise' | 'exerciseFilters'
 
 type ModalData = {
 	imageUrl?: string

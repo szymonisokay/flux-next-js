@@ -1,67 +1,70 @@
-import { redirectToSignIn } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 import { ExerciseCard } from '@/components/exercise/exercise-card'
-import { AddExerciseForm } from '@/components/forms/add-exercise-form'
-import { PageHeader } from '@/components/page-header'
+import { Pagination } from '@/components/pagination'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
-import { Heading } from '../../../../../../../components/heading'
+
+import { MetaData } from './_components/meta-data'
 
 type Params = {
 	searchParams: {
 		bodyPart?: string
 		equpiment?: string
 		target?: string
-		exercisesNumber?: string
-		generate?: boolean
+		query?: string
+		page?: string
 	}
 }
+
+const PAGE_SIZE = 10
 
 const AddExercisePage = async ({ searchParams }: Params) => {
 	const profile = await getProfile()
 
 	if (!profile) {
-		return redirectToSignIn()
+		return redirect('/')
 	}
 
-	const { generate, exercisesNumber, ...params } = searchParams
+	const { query, page, ...params } = searchParams
 
-	const exercisesCount = await prisma.exercise.count({
-		where: params,
-	})
-	const skip = Math.floor(Math.random() * exercisesCount)
+	const currentPage = Number(page) || 1
+	const skip = Math.floor((currentPage - 1) * PAGE_SIZE)
 
 	const exercises = await prisma.exercise.findMany({
-		where: params,
-		take: Number(exercisesNumber) || 3,
+		where: {
+			...params,
+
+			name: {
+				contains: query,
+				mode: 'insensitive',
+			},
+		},
+		take: PAGE_SIZE,
 		skip,
+	})
+
+	const total = await prisma.exercise.count({
+		where: {
+			...params,
+			name: {
+				contains: query,
+				mode: 'insensitive',
+			},
+		},
 	})
 
 	return (
 		<>
-			<PageHeader
-				title='Add exercise'
-				description='Generate and add exercise to your workout'
-			/>
+			<MetaData total={total} />
 
-			<AddExerciseForm />
+			<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+				{exercises.map((exercise) => (
+					<ExerciseCard key={exercise.id} exercise={exercise} />
+				))}
+			</div>
 
-			{!!generate && (
-				<div className='mt-4'>
-					<Heading
-						title='Exercises'
-						description='Select one exercise and add it to workout'
-					/>
-					<div className='grid grid-cols-1 gap-4 pt-4 mt-4 border-t sm:grid-cols-2 lg:grid-cols-3'>
-						{exercises.map((exercise) => (
-							<ExerciseCard
-								key={exercise.id}
-								exercise={exercise}
-							/>
-						))}
-					</div>
-				</div>
-			)}
+			{!!total && <Pagination total={total} pageSize={PAGE_SIZE} />}
 		</>
 	)
 }

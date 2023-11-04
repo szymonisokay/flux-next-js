@@ -11,7 +11,7 @@ export const bodyParts = [
 	'waist',
 ]
 
-export const equipment = [
+export const equipments = [
 	'assisted',
 	'band',
 	'barbell',

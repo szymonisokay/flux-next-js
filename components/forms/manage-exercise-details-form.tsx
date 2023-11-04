@@ -27,6 +27,7 @@ const formSchema = z.object({
 		.object({
 			reps: z.number().nullable(),
 			weight: z.number().nullable(),
+			order: z.number(),
 		})
 		.array(),
 })
@@ -128,12 +129,15 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 													{...field}
 													type='number'
 													min={0}
-													value={field.value ?? 0}
+													value={Number(
+														field.value
+													).toString()}
 													onChange={(e) =>
 														field.onChange(
 															+e.target.value
 														)
 													}
+													autoFocus
 												/>
 											</FormControl>
 										</FormItem>
@@ -147,17 +151,26 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 										<FormItem>
 											<FormLabel>Weight</FormLabel>
 											<FormControl>
-												<Input
-													{...field}
-													type='number'
-													min={0}
-													value={field.value ?? 0}
-													onChange={(e) =>
-														field.onChange(
-															+e.target.value
-														)
-													}
-												/>
+												<div className='relative'>
+													<Input
+														{...field}
+														type='number'
+														min={0}
+														value={Number(
+															field.value
+														).toString()}
+														onChange={(e) =>
+															field.onChange(
+																+e.target.value
+															)
+														}
+														className='pr-8'
+														autoFocus
+													/>
+													<span className='absolute text-sm top-[10px] right-3 text-secondary'>
+														kg
+													</span>
+												</div>
 											</FormControl>
 										</FormItem>
 									)}
@@ -172,7 +185,11 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 											const { reps, weight } =
 												form.getValues(`sets.${index}`)
 
-											insert(++index, { reps, weight })
+											insert(++index, {
+												reps,
+												weight,
+												order: ++index,
+											})
 										}}
 									>
 										<CopyIcon className='w-4 h-4' />
@@ -192,7 +209,9 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 						<Button
 							type='button'
 							variant='outline'
-							onClick={() => append({ reps: 0, weight: 0 })}
+							onClick={() =>
+								append({ reps: 0, weight: 0, order: 1 })
+							}
 						>
 							Add set
 						</Button>
