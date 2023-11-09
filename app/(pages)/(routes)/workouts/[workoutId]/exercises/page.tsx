@@ -1,13 +1,14 @@
 import { PlusIcon } from 'lucide-react'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
-import { ExerciseCardWithDetails } from '@/components/exercise/exercise-card-with-details'
 import { PageHeader } from '@/components/page-header'
 import { Tooltip } from '@/components/tooltip'
 import { Button } from '@/components/ui/button'
+import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { getProfile } from '../../../../../../lib/get-profile'
+
+import { Wrapper } from './_components/wrapper'
 
 const WorkoutExercisesPage = async ({
 	params,
@@ -68,14 +69,7 @@ const WorkoutExercisesPage = async ({
 					</Link>
 				</div>
 			) : (
-				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-					{workout.trainings.map((training) => (
-						<ExerciseCardWithDetails
-							key={training.id}
-							training={training}
-						/>
-					))}
-				</div>
+				<Wrapper workout={workout} />
 			)}
 		</>
 	)

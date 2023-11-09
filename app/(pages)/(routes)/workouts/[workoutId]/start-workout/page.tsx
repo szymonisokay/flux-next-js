@@ -4,9 +4,9 @@ import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
-import { Heading } from '@/components/heading'
-import { Separator } from '@/components/ui/separator'
 import { MainExercise } from './_components/main-exercise'
+import { NextExercises } from './_components/next-exercises'
+import { WorkoutCompleted } from './_components/workout-completed'
 
 const StartWorkoutPage = async ({
 	params,
@@ -59,26 +59,14 @@ const StartWorkoutPage = async ({
 			/>
 
 			<div className='mt-4'>
-				{!!trainingsNotCompleted.length && (
+				{!!trainingsNotCompleted.length ? (
 					<MainExercise training={trainingsNotCompleted[0]} />
+				) : (
+					<WorkoutCompleted trainings={trainingsNotCompleted} />
 				)}
 
 				{trainingsNotCompleted.length > 1 && (
-					<>
-						<Separator className='my-4' />
-						<Heading title='Next exercise' />
-
-						{trainingsNotCompleted.map((training, index) => (
-							<>
-								{index > 0 && (
-									<MainExercise
-										key={training.id}
-										training={training}
-									/>
-								)}
-							</>
-						))}
-					</>
+					<NextExercises trainings={trainingsNotCompleted} />
 				)}
 			</div>
 		</>

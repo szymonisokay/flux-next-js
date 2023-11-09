@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation'
 
-import { ExerciseCard } from '@/components/exercise/exercise-card'
 import { Pagination } from '@/components/pagination'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
 import { MetaData } from './_components/meta-data'
+import { Wrapper } from './_components/wrapper'
 
 type Params = {
 	searchParams: {
@@ -42,6 +42,9 @@ const AddExercisePage = async ({ searchParams }: Params) => {
 		},
 		take: PAGE_SIZE,
 		skip,
+		orderBy: {
+			name: 'asc',
+		},
 	})
 
 	const total = await prisma.exercise.count({
@@ -58,11 +61,7 @@ const AddExercisePage = async ({ searchParams }: Params) => {
 		<>
 			<MetaData total={total} />
 
-			<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-				{exercises.map((exercise) => (
-					<ExerciseCard key={exercise.id} exercise={exercise} />
-				))}
-			</div>
+			<Wrapper exercises={exercises} />
 
 			{!!total && <Pagination total={total} pageSize={PAGE_SIZE} />}
 		</>

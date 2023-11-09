@@ -1,9 +1,8 @@
 'use client'
 
-import Image from 'next/image'
-
-import { Heading } from '@/components/heading'
 import { Exercise, Set, Training } from '@prisma/client'
+
+import { ExerciseCard } from '@/components/exercise/exercise-card'
 
 import { ExerciseDetails } from './exercise-details'
 
@@ -19,13 +18,9 @@ export const MainExercise = ({ training }: Props) => {
 
 	return (
 		<div>
-			<div className='flex gap-4 p-4 border rounded-md bg-muted'>
-				<div className='relative overflow-hidden rounded-md w-28 h-28 shrink-0'>
-					<Image fill src={exercise.gifUrl} alt={exercise.name} />
-				</div>
-
-				<Heading title={exercise.name} />
-			</div>
+			<ExerciseCard highlight exercise={exercise}>
+				<ExerciseCard.Details />
+			</ExerciseCard>
 
 			<ExerciseDetails training={training} />
 		</div>

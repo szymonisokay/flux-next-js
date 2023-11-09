@@ -26,7 +26,7 @@ export const Pagination = ({ total, pageSize }: Props) => {
 	const filters = useFilters()
 	const { page, pageCount } = usePagination({ total, pageSize })
 
-	useScrollTop({ prevRef, nextRef })
+	const { scrollTop } = useScrollTop()
 
 	const onPageChange = (page: number) => {
 		const url = qs.stringifyUrl(
@@ -38,6 +38,7 @@ export const Pagination = ({ total, pageSize }: Props) => {
 		)
 
 		router.push(url, { scroll: false })
+		scrollTop()
 	}
 
 	return (

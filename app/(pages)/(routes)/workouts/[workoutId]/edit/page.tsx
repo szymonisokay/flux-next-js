@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 
+import { Completed } from '@/components/completed'
 import { EditWorkoutForm } from '@/components/forms/edit-workout-form'
 import { PageHeader } from '@/components/page-header'
 import { Tooltip } from '@/components/tooltip'
@@ -41,6 +42,8 @@ const WorkoutEditPage = async ({
 					title='Edit workout'
 					description='Edit your workout details'
 				/>
+
+				{workout.completed && <Completed />}
 
 				{!!workout.trainings.length && (
 					<Tooltip
