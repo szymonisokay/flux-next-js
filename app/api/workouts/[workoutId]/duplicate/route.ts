@@ -45,11 +45,14 @@ export async function POST(
 							exerciseId,
 							sets: {
 								createMany: {
-									data: sets.map(({ reps, weight }) => ({
-										reps,
-										weight,
-										completed: false,
-									})),
+									data: sets.map(
+										({ reps, weight }, index) => ({
+											reps,
+											weight,
+											completed: false,
+											order: ++index,
+										})
+									),
 								},
 							},
 						})
