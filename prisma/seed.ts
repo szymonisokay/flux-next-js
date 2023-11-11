@@ -1,19 +1,8 @@
-import axios from 'axios'
-import { apiOptions } from '../actions/getExercises'
+import { PrismaClient } from '@prisma/client'
 
-import { Exercise } from '@prisma/client'
-import prisma from '../libs/prismadb'
+const prisma = new PrismaClient()
 
-async function main() {
-	const { data: exercises } = await axios.request<Exercise[]>(apiOptions)
-
-	const data = exercises.map((exercise) => {
-		const { id, ...rest } = exercise
-		return rest
-	})
-
-	await prisma.exercise.createMany({ data })
-}
+async function main() {}
 
 main()
 	.then(async () => {

@@ -1,23 +1,36 @@
-import prisma from '@/libs/prismadb'
-import { Workout } from '@prisma/client'
 import { NextResponse } from 'next/server'
-import getCurrentUser from '../../../actions/getCurrentUser'
-import { MessageResponse } from '../../../interfaces/messageResponse.interface'
-import { throwError } from '../../../utils/error'
 
-export async function POST(request: Request) {
-	const currentUser = await getCurrentUser()
+import { getProfile } from '@/lib/get-profile'
+import { prisma } from '@/lib/prisma'
 
-	if (!currentUser) {
-		return throwError('Not authorized', 401)
+export async function POST(req: Request) {
+	try {
+		const profile = await getProfile()
+
+		if (!profile) {
+			return new NextResponse('Unauthorized', { status: 401 })
+		}
+
+		const { name, description, date } = await req.json()
+
+		if (!name || !date) {
+			return new NextResponse('Required fields are missing', {
+				status: 400,
+			})
+		}
+
+		const workout = await prisma.workout.create({
+			data: {
+				name,
+				description,
+				date,
+				profileId: profile.id,
+			},
+		})
+
+		return NextResponse.json(workout.id)
+	} catch (error) {
+		console.log('[WORKOUTS_POST]', error)
+		return new NextResponse('Internal server error', { status: 500 })
 	}
-
-	const data = await request.json()
-
-	const workout = await prisma.workout.create({ data })
-
-	return NextResponse.json({
-		message: 'Workout created',
-		result: workout,
-	} as MessageResponse<Workout>)
 }

@@ -9,18 +9,7 @@ const Dialog = DialogPrimitive.Root
 
 const DialogTrigger = DialogPrimitive.Trigger
 
-const DialogPortal = ({
-	className,
-	children,
-	...props
-}: DialogPrimitive.DialogPortalProps) => (
-	<DialogPrimitive.Portal className={cn(className)} {...props}>
-		<div className='fixed inset-0 z-50 flex items-center justify-center'>
-			{children}
-		</div>
-	</DialogPrimitive.Portal>
-)
-DialogPortal.displayName = DialogPrimitive.Portal.displayName
+const DialogPortal = DialogPrimitive.Portal
 
 const DialogOverlay = React.forwardRef<
 	React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -29,7 +18,7 @@ const DialogOverlay = React.forwardRef<
 	<DialogPrimitive.Overlay
 		ref={ref}
 		className={cn(
-			'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
+			'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
 			className
 		)}
 		{...props}
@@ -46,16 +35,16 @@ const DialogContent = React.forwardRef<
 		<DialogPrimitive.Content
 			ref={ref}
 			className={cn(
-				'fixed z-50 flex flex-col w-full h-full sm:h-auto gap-4 border bg-background p-6 shadow-lg animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:max-w-lg rounded-lg sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0 flex-2 ',
+				'fixed left-[50%] bottom-[0%] z-50 flex flex-col w-full max-w-lg translate-x-[-50%]  gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] h-full sm:h-auto sm:rounded-lg sm:bottom-[50%] sm:translate-y-[50%] md:w-full',
 				className
 			)}
 			{...props}
 		>
 			{children}
-			{/* <DialogPrimitive.Close className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'>
-				<X className='w-4 h-4' />
-				<span className='sr-only'>Close</span>
-			</DialogPrimitive.Close> */}
+			{/* <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <X className="w-4 h-4" />
+        <span className="sr-only">Close</span>
+      </DialogPrimitive.Close> */}
 		</DialogPrimitive.Content>
 	</DialogPortal>
 ))
@@ -67,7 +56,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
 	<div
 		className={cn(
-			'flex flex-col flex-2 space-y-1.5 mb-2 text-center sm:text-left',
+			'flex flex-col space-y-1.5 text-center sm:text-left',
 			className
 		)}
 		{...props}
@@ -81,7 +70,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
 	<div
 		className={cn(
-			'flex empty:hidden flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+			'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
 			className
 		)}
 		{...props}
@@ -122,6 +111,8 @@ export {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
+	DialogOverlay,
+	DialogPortal,
 	DialogTitle,
 	DialogTrigger,
 }

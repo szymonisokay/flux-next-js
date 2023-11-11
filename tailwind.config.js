@@ -1,13 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 module.exports = {
 	darkMode: ['class'],
 	content: [
 		'./pages/**/*.{ts,tsx}',
 		'./components/**/*.{ts,tsx}',
 		'./app/**/*.{ts,tsx}',
+		'./src/**/*.{ts,tsx}',
 	],
 	theme: {
 		container: {
@@ -16,10 +14,6 @@ module.exports = {
 			screens: {
 				'2xl': '1400px',
 			},
-		},
-		screens: {
-			xs: '400px',
-			...defaultTheme.screens,
 		},
 		extend: {
 			colors: {
@@ -31,6 +25,7 @@ module.exports = {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
+					color: 'hsl(var(--primary-color))',
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',

@@ -6,84 +6,80 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String? @unique
-  emailVerified DateTime?
-  image String?
-  password String?
+model Profile {
+  id        String @id @default(uuid())
+  userId    String @unique
+  name      String
+  email     String @db.Text
+  image     String? @db.Text
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  roles String[]
 
-  accounts Account[]
-}
-
-model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  type String
-  provider String
-  providerAccountId String
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.String
-  session_state String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Exercise {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  Aka String?
-  Category String?
-	Difficulty String?
-	Force String?
-	Grips String?
-	details String?
-	exercise_name String?
-	steps String[]
-	target ExerciseTarget
-	videoURL String[]
-	youtubeURL String?
-}
-
-type ExerciseTarget {
-  Primary String[]
-  Secondary String[]
-  Tertiary String[]
+  workouts  Workout[]
 }
 
 model Workout {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  exercises WorkoutExercise[]
-  date DateTime
-  workoutTime String?
-  workoutDuration Int?
-  weight Int?
-  photos String[]
+  id          String @id @default(uuid())
+  name        String 
+  description String?
+  date        String
+  duration    String?
+  start       String?
+  end         String?
+  weight      Float?
+  completed   Boolean @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  trainings   Training[]
+
+  profileId   String
+  profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
-type WorkoutExercise {
-  exerciseId String?
-  isEditing Boolean
-  rowId String
-  sets SetModel[]
+model Training {
+  id          String @id @default(uuid())
+  duration    String?
+  completed   Boolean @default(false)
+  sets        Set[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  exerciseId  String
+  exercise    Exercise @relation(fields: [exerciseId], references: [id])
+
+  workoutId   String
+  workout     Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
-type SetModel {
-  setRowId String
-  reps Int? @default(0)
-  weight Int? @default(0)
+model Set {
+  id          String @id @default(uuid())
+  reps        Int?
+  weight      Int?
+  completed   Boolean @default(false)
+  order       Int
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  trainingId  String 
+  training    Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+}
+
+model Exercise {
+  id        String @id @default(uuid())
+  name      String
+  bodyPart  String @db.Text
+  equipment String
+  gifUrl    String @db.Text
+  target    String
+
+  trainings Training[]
 }

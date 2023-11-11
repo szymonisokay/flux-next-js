@@ -1,14 +1,15 @@
-import Image from 'next/image'
-import React from 'react'
-import logo from '../public/images/Logo.png'
+import Image, { ImageProps } from 'next/image'
 
-interface LogoProps {
+import logo from '@/public/images/Logo.png'
+
+type Props = ImageProps & {
 	small?: boolean
 }
 
-const Logo: React.FC<LogoProps> = ({ small }) => {
+export const Logo = ({ small, ...props }: Props) => {
 	return (
 		<Image
+			{...props}
 			src={logo}
 			alt='logo'
 			width={small ? '100' : '150'}
@@ -16,5 +17,3 @@ const Logo: React.FC<LogoProps> = ({ small }) => {
 		/>
 	)
 }
-
-export default Logo
