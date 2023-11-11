@@ -38,9 +38,10 @@ export async function POST(req: Request, { params }: { params: Params }) {
 				...training,
 				sets: {
 					createMany: {
-						data: sets.map((set) => ({
+						data: sets.map((set, index) => ({
 							reps: set.reps,
 							weight: set.weight,
+							order: ++index,
 						})),
 					},
 				},
