@@ -56,7 +56,7 @@ export const ExerciseFiltersForm = () => {
 	const onSubmit = async (values: FormValues) => {
 		const url = qs.stringifyUrl(
 			{
-				url: pathname,
+				url: pathname ?? '',
 				query: values,
 			},
 			{ skipEmptyString: true, skipNull: true }

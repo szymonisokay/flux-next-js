@@ -38,7 +38,7 @@ export const SearchExerciseForm = () => {
 	const onSubmit = async (values: FormValues) => {
 		const url = qs.stringifyUrl(
 			{
-				url: pathname,
+				url: pathname ?? '',
 				query: { ...values, ...filters },
 			},
 			{ skipEmptyString: true, skipNull: true }
@@ -50,7 +50,7 @@ export const SearchExerciseForm = () => {
 
 	useEffect(() => {
 		form.setValue('query', query)
-	}, [query])
+	}, [form, query])
 
 	return (
 		<Form {...form}>
