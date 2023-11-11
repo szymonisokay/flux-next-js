@@ -1,5 +1,4 @@
 import { MenuIcon, XIcon } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -9,6 +8,7 @@ import {
 	SheetContent,
 	SheetTrigger,
 } from '@/components/ui/sheet'
+import packageJson from '@/package.json'
 
 import { NavigationRoutes } from './navigation-routes'
 
@@ -20,16 +20,14 @@ export const Sidebar = () => {
 					<MenuIcon className='w-5 h-5 ' />
 				</Button>
 			</SheetTrigger>
-			<SheetContent side='left' className='p-4'>
+			<SheetContent side='left' className='flex flex-col gap-0 p-4'>
 				<div className='flex items-center justify-between'>
-					<Link prefetch={false} href='/' className='block max-w-max'>
-						<Image
-							src='/images/logo.svg'
-							alt='logo'
-							width={130}
-							height={70}
-							className='fill-red-500'
-						/>
+					<Link
+						prefetch={false}
+						href='/'
+						className='block text-xl font-semibold max-w-max'
+					>
+						Flux Exercises
 					</Link>
 
 					<SheetClose asChild>
@@ -40,6 +38,10 @@ export const Sidebar = () => {
 				</div>
 
 				<NavigationRoutes />
+
+				<div className='flex items-end justify-center text-sm text-secondary'>
+					v {packageJson.version}
+				</div>
 			</SheetContent>
 		</Sheet>
 	)

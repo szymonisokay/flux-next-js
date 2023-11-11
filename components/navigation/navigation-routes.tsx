@@ -23,7 +23,7 @@ export const NavigationRoutes = () => {
 	const pathname = usePathname()
 
 	return (
-		<div className='flex flex-col mt-10 gap-y-2'>
+		<div className='flex flex-col flex-1 mt-10 gap-y-2'>
 			{routes.map(({ label, href, icon: Icon }) => (
 				<Link
 					key={href}
