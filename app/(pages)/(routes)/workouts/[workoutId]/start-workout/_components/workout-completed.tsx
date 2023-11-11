@@ -54,7 +54,7 @@ export const WorkoutCompleted = ({ trainings }: Props) => {
 						<Link
 							replace
 							prefetch={false}
-							href={`/workouts/${params.workoutId}/edit`}
+							href={`/workouts/${params?.workoutId}/edit`}
 						>
 							<Button variant='colored' size='sm'>
 								Go back

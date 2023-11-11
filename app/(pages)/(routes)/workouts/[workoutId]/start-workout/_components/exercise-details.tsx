@@ -23,7 +23,7 @@ export const ExerciseDetails = ({ training }: Props) => {
 	const onToggleCompleteSet = async (completed: boolean, setId: string) => {
 		try {
 			await axios.put(
-				`/api/workouts/${params.workoutId}/trainings/${trainingId}/sets`,
+				`/api/workouts/${params?.workoutId}/trainings/${trainingId}/sets`,
 				{
 					setId,
 					completed,
@@ -38,7 +38,7 @@ export const ExerciseDetails = ({ training }: Props) => {
 	const onToggleCompleteDuration = async (completed: boolean) => {
 		try {
 			await axios.put(
-				`/api/workouts/${params.workoutId}/trainings/${trainingId}/duration`,
+				`/api/workouts/${params?.workoutId}/trainings/${trainingId}/duration`,
 				{
 					completed,
 				}

@@ -160,7 +160,7 @@ const ExerciseCardMenu = ({ trainingId }: ExerciseCardMenuProps) => {
 	const onDuplicateTraining = async () => {
 		try {
 			await axios.post(
-				`/api/workouts/${params.workoutId}/trainings/${trainingId}/duplicate`
+				`/api/workouts/${params?.workoutId}/trainings/${trainingId}/duplicate`
 			)
 
 			router.refresh()
@@ -172,7 +172,7 @@ const ExerciseCardMenu = ({ trainingId }: ExerciseCardMenuProps) => {
 	const onDeleteTraining = async () => {
 		try {
 			await axios.delete(
-				`/api/workouts/${params.workoutId}/trainings/${trainingId}`
+				`/api/workouts/${params?.workoutId}/trainings/${trainingId}`
 			)
 
 			router.refresh()

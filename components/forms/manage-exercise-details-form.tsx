@@ -62,13 +62,13 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 
 	const onSubmit = async (values: FormValues) => {
 		try {
-			await axios.post(`/api/workouts/${params.workoutId}/trainings`, {
+			await axios.post(`/api/workouts/${params?.workoutId}/trainings`, {
 				...values,
 				exerciseId: exercise.id,
 			})
 
 			router.refresh()
-			router.replace(`/workouts/${params.workoutId}/exercises`)
+			router.replace(`/workouts/${params?.workoutId}/exercises`)
 
 			setTimeout(() => setClose(), 300)
 		} catch (error) {
