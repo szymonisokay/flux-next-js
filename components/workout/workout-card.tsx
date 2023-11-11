@@ -3,6 +3,7 @@
 import { Workout } from '@prisma/client'
 import { ClockIcon, WeightIcon } from 'lucide-react'
 
+import { Completed } from '@/components/completed'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -14,17 +15,26 @@ type Props = {
 }
 
 export const WorkoutCard = ({ workout, highlighted }: Props) => {
-	const { id, name, description, duration, weight } = workout
+	const { id, name, description, duration, weight, completed } = workout
 
 	return (
 		<div
 			className={cn(
 				'p-4 mt-2 border rounded-md hover:bg-muted duration-200 group max-w-sm',
-				highlighted && 'bg-muted'
+				highlighted && 'bg-muted',
+				completed &&
+					'border-primary-color hover:bg-primary-color/10 opacity-50'
 			)}
 		>
 			<div className='flex items-start justify-between gap-x-4'>
 				<div>
+					{completed && (
+						<Completed
+							size='default'
+							variant='colored'
+							className='mb-1'
+						/>
+					)}
 					<Link href={`/workouts/${id}/edit`}>
 						<h3 className='text-lg font-semibold leading-tight text-primary'>
 							{name}

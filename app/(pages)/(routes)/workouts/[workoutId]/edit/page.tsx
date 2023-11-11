@@ -43,7 +43,9 @@ const WorkoutEditPage = async ({
 					description='Edit your workout details'
 				/>
 
-				{workout.completed && <Completed />}
+				{workout.completed && (
+					<Completed icon size='sm' variant='colored' />
+				)}
 
 				{!!workout.trainings.length && (
 					<Tooltip
