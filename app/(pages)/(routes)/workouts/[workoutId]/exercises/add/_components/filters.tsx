@@ -25,7 +25,7 @@ export const Filters = () => {
 
 		const url = qs.stringifyUrl(
 			{
-				url: pathname,
+				url: pathname ?? '',
 				query: {
 					...filters,
 					[key]: '',

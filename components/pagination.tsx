@@ -31,7 +31,7 @@ export const Pagination = ({ total, pageSize }: Props) => {
 	const onPageChange = (page: number) => {
 		const url = qs.stringifyUrl(
 			{
-				url: pathname,
+				url: pathname ?? '',
 				query: { ...filters, page },
 			},
 			{ skipEmptyString: true, skipNull: true }
