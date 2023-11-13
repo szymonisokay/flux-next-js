@@ -1,4 +1,4 @@
-import { compareDesc, isToday } from 'date-fns'
+import { addHours, compareDesc, isToday } from 'date-fns'
 import { format } from 'date-fns-tz'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -34,16 +34,14 @@ const DashboardPage = async () => {
 			compareDesc(Date.now(), new Date(workout.date)) === 1
 	)
 
+	const date = addHours(new Date(nextWorkout?.date || ''), 2)
+
 	return (
 		<>
 			{nextWorkout ? (
 				<>
 					<Heading
-						title={format(
-							new Date(nextWorkout.date),
-							'dd LLL yyyy',
-							{ timeZone: 'Europe/Warsaw' }
-						)}
+						title={format(date, 'dd LLL yyyy')}
 						description='Your next workout'
 					/>
 					<WorkoutCard workout={nextWorkout} highlighted />
