@@ -1,4 +1,5 @@
-import { compareDesc, format, isToday } from 'date-fns'
+import { compareDesc, isToday } from 'date-fns'
+import { format } from 'date-fns-tz'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -21,6 +22,7 @@ const DashboardPage = async () => {
 	const workouts = await prisma.workout.findMany({
 		where: {
 			profileId: profile.id,
+			completed: false,
 		},
 	})
 
@@ -37,7 +39,10 @@ const DashboardPage = async () => {
 					<Heading
 						title={format(
 							new Date(nextWorkout.date),
-							'dd LLL yyyy'
+							'dd LLL yyyy',
+							{
+								timeZone: '+0100',
+							}
 						)}
 						description='Your next workout'
 					/>
