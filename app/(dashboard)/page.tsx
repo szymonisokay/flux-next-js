@@ -38,14 +38,22 @@ const DashboardPage = async () => {
 				<>
 					<Heading
 						title={format(
-							new Date(nextWorkout.date),
+							new Date(
+								new Date(nextWorkout.date).valueOf() +
+									new Date(
+										nextWorkout.date
+									).getTimezoneOffset() *
+										60 *
+										1000
+							),
 							'dd LLL yyyy',
 							{
-								timeZone: '+0100',
+								timeZone: 'America/New_York',
 							}
 						)}
 						description='Your next workout'
 					/>
+					{nextWorkout.date}
 					<WorkoutCard workout={nextWorkout} highlighted />
 				</>
 			) : (
