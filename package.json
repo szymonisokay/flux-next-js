@@ -1,6 +1,6 @@
 {
 	"name": "flux-next-js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -40,6 +40,7 @@
 		"clsx": "^1.2.1",
 		"cmdk": "^0.2.0",
 		"date-fns": "^2.30.0",
+		"date-fns-tz": "^2.0.0",
 		"eslint": "8.40.0",
 		"eslint-config-next": "13.4.2",
 		"lucide-react": "^0.280.0",
