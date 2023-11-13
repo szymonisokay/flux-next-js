@@ -9,6 +9,7 @@ import { WorkoutCard } from '@/components/workout/workout-card'
 import { createProfile } from '@/lib/create-profile'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
+import { enUS } from 'date-fns/locale'
 
 const DashboardPage = async () => {
 	await createProfile()
@@ -42,11 +43,10 @@ const DashboardPage = async () => {
 						title={format(
 							new Date(nextWorkout.date),
 							'dd LLL yyyy',
-							{ timeZone: 'GMT+0200' }
+							{ locale: enUS }
 						)}
 						description='Your next workout'
 					/>
-					{nextWorkout.date}
 					<WorkoutCard workout={nextWorkout} highlighted />
 				</>
 			) : (
