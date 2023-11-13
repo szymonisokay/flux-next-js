@@ -26,6 +26,8 @@ const DashboardPage = async () => {
 		},
 	})
 
+	console.log(workouts)
+
 	const nextWorkout = workouts.find(
 		(workout) =>
 			isToday(new Date(workout.date)) ||
@@ -38,18 +40,9 @@ const DashboardPage = async () => {
 				<>
 					<Heading
 						title={format(
-							new Date(
-								new Date(nextWorkout.date).valueOf() +
-									new Date(
-										nextWorkout.date
-									).getTimezoneOffset() *
-										60 *
-										1000
-							),
+							new Date(nextWorkout.date),
 							'dd LLL yyyy',
-							{
-								timeZone: 'America/New_York',
-							}
+							{ timeZone: 'GMT+0200' }
 						)}
 						description='Your next workout'
 					/>
