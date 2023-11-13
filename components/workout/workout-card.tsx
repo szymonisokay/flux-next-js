@@ -17,6 +17,7 @@ type Props = {
 export const WorkoutCard = ({ workout, highlighted }: Props) => {
 	const { id, name, description, duration, weight, completed } = workout
 
+	console.log(new Date(workout.date))
 	return (
 		<div
 			className={cn(
