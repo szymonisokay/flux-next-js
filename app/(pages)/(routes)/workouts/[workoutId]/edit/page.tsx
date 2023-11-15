@@ -35,6 +35,7 @@ const WorkoutEditPage = async ({
 		<>
 			<div className='flex items-center justify-between w-full'>
 				<PageHeader
+					href='/workouts'
 					title='Edit workout'
 					description='Edit your workout details'
 				/>

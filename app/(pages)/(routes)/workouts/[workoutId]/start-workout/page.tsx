@@ -38,7 +38,6 @@ const StartWorkoutPage = async ({
 		return redirect('/workouts')
 	}
 
-	console.log(workout)
 	const trainingsNotCompleted = workout.trainings.filter(
 		(training) => !training.completed
 	)

@@ -26,6 +26,7 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 	return (
 		<>
 			<PageHeader
+				href='/workouts'
 				title='Create workout'
 				description='Fill in all required details'
 			/>

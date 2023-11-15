@@ -24,7 +24,11 @@ const WorkoutsPage = async () => {
 
 	return (
 		<>
-			<PageHeader title='Workouts' description='List of your workouts' />
+			<PageHeader
+				href='/'
+				title='Workouts'
+				description='List of your workouts'
+			/>
 
 			<WorkoutsWrapper workouts={workouts} />
 		</>
