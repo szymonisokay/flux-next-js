@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import qs from 'query-string'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -14,7 +15,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFilters } from '@/hooks/use-filters'
 import { useModal } from '@/hooks/use-modal'
-import { useEffect } from 'react'
 
 const formSchema = z.object({
 	query: z.string().optional(),

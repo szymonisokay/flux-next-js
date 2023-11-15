@@ -9,16 +9,19 @@ import { Button } from '@/components/ui/button'
 type Props = {
 	title: string
 	description?: string
+	href?: string
 }
 
-export const PageHeader = ({ title, description }: Props) => {
+export const PageHeader = ({ title, description, href }: Props) => {
 	const router = useRouter()
 
 	return (
 		<div className='flex items-center justify-between'>
 			<div className='flex items-center gap-x-2 '>
 				<Button
-					onClick={() => router.back()}
+					onClick={() =>
+						href ? router.replace(href) : router.back()
+					}
 					variant='ghost'
 					size='icon'
 					className='shrink-0'

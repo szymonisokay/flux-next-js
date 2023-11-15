@@ -3,12 +3,8 @@ import { redirect } from 'next/navigation'
 import { Completed } from '@/components/completed'
 import { EditWorkoutForm } from '@/components/forms/edit-workout-form'
 import { PageHeader } from '@/components/page-header'
-import { Tooltip } from '@/components/tooltip'
-import { Button } from '@/components/ui/button'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
-import { PlayCircleIcon } from 'lucide-react'
-import Link from 'next/link'
 
 const WorkoutEditPage = async ({
 	params,
@@ -37,31 +33,15 @@ const WorkoutEditPage = async ({
 
 	return (
 		<>
-			<div className='flex items-center w-full'>
+			<div className='flex items-center justify-between w-full'>
 				<PageHeader
+					href='/workouts'
 					title='Edit workout'
 					description='Edit your workout details'
 				/>
 
 				{workout.completed && (
 					<Completed icon size='sm' variant='colored' />
-				)}
-
-				{!!workout.trainings.length && (
-					<Tooltip
-						label='Start working out'
-						side='bottom'
-						align='end'
-					>
-						<Link
-							href={`/workouts/${workout.id}/start-workout`}
-							className='ml-auto'
-						>
-							<Button variant='colored' size='sm'>
-								<PlayCircleIcon className='w-5 h-5' />
-							</Button>
-						</Link>
-					</Tooltip>
 				)}
 			</div>
 

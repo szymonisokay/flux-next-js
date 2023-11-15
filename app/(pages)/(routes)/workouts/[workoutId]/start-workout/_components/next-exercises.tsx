@@ -1,10 +1,11 @@
 'use client'
 
+import { Exercise, Set, Training } from '@prisma/client'
+import { Fragment } from 'react'
+
 import { ExerciseCard } from '@/components/exercise/exercise-card'
 import { Heading } from '@/components/heading'
 import { Separator } from '@/components/ui/separator'
-import { Exercise, Set, Training } from '@prisma/client'
-import { Fragment } from 'react'
 
 type Props = {
 	trainings: (Training & {

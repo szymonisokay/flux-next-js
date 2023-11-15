@@ -1,6 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Exercise } from '@prisma/client'
+import axios from 'axios'
 import { CopyIcon, Loader2Icon, TrashIcon } from 'lucide-react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -14,12 +16,10 @@ import {
 	FormItem,
 	FormLabel,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useModal } from '@/hooks/use-modal'
-import { Exercise } from '@prisma/client'
-import axios from 'axios'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
-import { ScrollArea } from '../ui/scroll-area'
 
 const formSchema = z.object({
 	duration: z.string().nullable(),

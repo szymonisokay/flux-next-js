@@ -1,5 +1,4 @@
-import { addHours, compareDesc, isToday } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { addHours, compareDesc, format, isToday } from 'date-fns'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -25,8 +24,6 @@ const DashboardPage = async () => {
 			completed: false,
 		},
 	})
-
-	console.log(workouts)
 
 	const nextWorkout = workouts.find(
 		(workout) =>

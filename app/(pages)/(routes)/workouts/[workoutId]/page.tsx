@@ -19,13 +19,14 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 		},
 	})
 
-	// if (!workout) {
-	// 	return redirect('/workouts')
-	// }
+	if (workout) {
+		return redirect(`/workouts/${workout.id}/edit`)
+	}
 
 	return (
 		<>
 			<PageHeader
+				href='/workouts'
 				title='Create workout'
 				description='Fill in all required details'
 			/>

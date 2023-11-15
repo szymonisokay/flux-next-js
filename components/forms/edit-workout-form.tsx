@@ -9,11 +9,14 @@ import {
 	DumbbellIcon,
 	ExternalLinkIcon,
 	Loader2Icon,
+	PlayCircleIcon,
 } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { FloatingActionButton } from '@/components/floating-action-button'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -26,6 +29,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
 	Popover,
 	PopoverContent,
@@ -33,8 +37,6 @@ import {
 } from '@/components/ui/popover'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import { Label } from '../ui/label'
 
 const formSchema = z.object({
 	name: z.string().nonempty({
@@ -88,184 +90,194 @@ export const EditWorkoutForm = ({ workout }: Props) => {
 	}
 
 	return (
-		<Form {...form}>
-			<form
-				className='flex flex-col mt-4 gap-y-3'
-				onSubmit={form.handleSubmit(onSubmit)}
-			>
-				<FormField
-					control={form.control}
-					name='name'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Name</FormLabel>
-							<FormControl>
-								<Input
-									{...field}
-									placeholder='Workout name'
-									disabled={loading}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
+		<>
+			{!!workout.trainings.length && (
+				<FloatingActionButton
+					href={`/workouts/${workout.id}/start-workout`}
+					label='Start working out'
+					icon={PlayCircleIcon}
 				/>
-
-				<FormField
-					control={form.control}
-					name='description'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								Description
-								<span className='inline-block ml-1 text-xs text-secondary'>
-									(optional)
-								</span>
-							</FormLabel>
-							<FormControl>
-								<Textarea
-									{...field}
-									value={field.value ?? ''}
-									rows={6}
-									placeholder='Workout description'
-									disabled={loading}
-								/>
-							</FormControl>
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='date'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Date</FormLabel>
-							<FormControl>
-								<Popover>
-									<PopoverTrigger asChild>
-										<Button
-											variant='outline'
-											className={cn(
-												'flex justify-start w-full text-left font-normal',
-												!field.value &&
-													'text-muted-foreground'
-											)}
-											disabled={loading}
-										>
-											<CalendarIcon className='w-4 h-4 mr-2' />
-											{field.value ? (
-												format(
-													new Date(field.value),
-													'PPP'
-												)
-											) : (
-												<span>Pick a date</span>
-											)}
-										</Button>
-									</PopoverTrigger>
-									<PopoverContent className='w-auto p-0'>
-										<Calendar
-											mode='single'
-											selected={new Date(field.value)}
-											onSelect={(date) =>
-												field.onChange(
-													date?.toISOString()
-												)
-											}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='duration'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								Duration
-								<span className='inline-block ml-1 text-xs text-secondary'>
-									(optional)
-								</span>
-							</FormLabel>
-							<FormControl>
-								<Input
-									{...field}
-									placeholder='Workout duration'
-									disabled={loading}
-									value={field.value || ''}
-								/>
-							</FormControl>
-							<FormDescription>
-								Enter workout duration time, e.g. 50 min
-							</FormDescription>
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='weight'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								Weight
-								<span className='inline-block ml-1 text-xs text-secondary'>
-									(optional)
-								</span>
-							</FormLabel>
-							<FormControl>
-								<div className='relative'>
+			)}
+			<Form {...form}>
+				<form
+					className='flex flex-col mt-4 gap-y-3'
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
+					<FormField
+						control={form.control}
+						name='name'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Name</FormLabel>
+								<FormControl>
 									<Input
 										{...field}
-										placeholder='Your weight after the workout'
-										className='pr-9'
+										placeholder='Workout name'
+										disabled={loading}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name='description'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									Description
+									<span className='inline-block ml-1 text-xs text-secondary'>
+										(optional)
+									</span>
+								</FormLabel>
+								<FormControl>
+									<Textarea
+										{...field}
+										value={field.value ?? ''}
+										rows={6}
+										placeholder='Workout description'
+										disabled={loading}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name='date'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Date</FormLabel>
+								<FormControl>
+									<Popover>
+										<PopoverTrigger asChild>
+											<Button
+												variant='outline'
+												className={cn(
+													'flex justify-start w-full text-left font-normal',
+													!field.value &&
+														'text-muted-foreground'
+												)}
+												disabled={loading}
+											>
+												<CalendarIcon className='w-4 h-4 mr-2' />
+												{field.value ? (
+													format(
+														new Date(field.value),
+														'PPP'
+													)
+												) : (
+													<span>Pick a date</span>
+												)}
+											</Button>
+										</PopoverTrigger>
+										<PopoverContent className='w-auto p-0'>
+											<Calendar
+												mode='single'
+												selected={new Date(field.value)}
+												onSelect={(date) =>
+													field.onChange(
+														date?.toISOString()
+													)
+												}
+												initialFocus
+											/>
+										</PopoverContent>
+									</Popover>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name='duration'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									Duration
+									<span className='inline-block ml-1 text-xs text-secondary'>
+										(optional)
+									</span>
+								</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										placeholder='Workout duration'
 										disabled={loading}
 										value={field.value || ''}
 									/>
-									<span className='absolute text-sm top-[10px] right-3 text-secondary'>
-										kg
+								</FormControl>
+								<FormDescription>
+									Enter workout duration time, e.g. 50 min
+								</FormDescription>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name='weight'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									Weight
+									<span className='inline-block ml-1 text-xs text-secondary'>
+										(optional)
 									</span>
-								</div>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+								</FormLabel>
+								<FormControl>
+									<div className='relative'>
+										<Input
+											{...field}
+											placeholder='Your weight after the workout'
+											className='pr-9'
+											disabled={loading}
+											value={field.value || ''}
+										/>
+										<span className='absolute text-sm top-[10px] right-3 text-secondary'>
+											kg
+										</span>
+									</div>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<div className='flex flex-col space-y-2'>
-					<Label>Exercises</Label>
-					<Link
-						href={`/workouts/${workout.id}/exercises`}
-						className='inline-block w-full'
-					>
-						<Button
-							variant='outline'
-							className='justify-start w-full'
+					<div className='flex flex-col space-y-2'>
+						<Label>Exercises</Label>
+						<Link
+							href={`/workouts/${workout.id}/exercises`}
+							className='inline-block w-full'
 						>
-							<DumbbellIcon className='w-4 h-4 mr-2' />
-							<span>
-								Manage exercises ({workout.trainings.length})
-							</span>
+							<Button
+								variant='outline'
+								className='justify-start w-full'
+							>
+								<DumbbellIcon className='w-4 h-4 mr-2' />
+								<span>
+									Manage exercises ({workout.trainings.length}
+									)
+								</span>
 
-							<ExternalLinkIcon className='w-4 h-4 ml-auto text-secondary' />
-						</Button>
-					</Link>
-				</div>
+								<ExternalLinkIcon className='w-4 h-4 ml-auto text-secondary' />
+							</Button>
+						</Link>
+					</div>
 
-				<Button variant='colored' disabled={loading}>
-					{loading && (
-						<Loader2Icon className='w-4 h-4 mr-2 animate-spin' />
-					)}
-					Update
-				</Button>
-			</form>
-		</Form>
+					<Button variant='colored' disabled={loading}>
+						{loading && (
+							<Loader2Icon className='w-4 h-4 mr-2 animate-spin' />
+						)}
+						Update
+					</Button>
+				</form>
+			</Form>
+		</>
 	)
 }

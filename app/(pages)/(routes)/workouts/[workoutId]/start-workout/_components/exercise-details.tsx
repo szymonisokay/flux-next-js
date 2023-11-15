@@ -1,12 +1,12 @@
 'use client'
 
+import { Set, Training } from '@prisma/client'
 import axios from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 
 import { Heading } from '@/components/heading'
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
-import { Set, Training } from '@prisma/client'
 
 type Props = {
 	training: Training & {

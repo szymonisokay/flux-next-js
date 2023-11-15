@@ -1,12 +1,13 @@
 'use client'
 
-import { Heading } from '@/components/heading'
-import { Button } from '@/components/ui/button'
 import { Training } from '@prisma/client'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
+
+import { Heading } from '@/components/heading'
+import { Button } from '@/components/ui/button'
 
 type Props = {
 	trainings: Training[]
@@ -14,7 +15,6 @@ type Props = {
 
 export const WorkoutCompleted = ({ trainings }: Props) => {
 	const params = useParams()
-	const router = useRouter()
 
 	const [showConfetti, setShowConfetti] = useState<boolean>(false)
 
@@ -23,19 +23,6 @@ export const WorkoutCompleted = ({ trainings }: Props) => {
 			setShowConfetti(true)
 		}
 	}, [trainings])
-
-	// useEffect(() => {
-	// 	let timeout: NodeJS.Timeout
-
-	// 	if (showConfetti) {
-	// 		timeout = setTimeout(() => {
-	// 			setShowConfetti(false)
-	// 			router.replace(`/workouts/${params.workoutId}/edit`)
-	// 		}, 5000)
-	// 	}
-
-	// 	return () => clearTimeout(timeout)
-	// }, [showConfetti])
 
 	return (
 		<>

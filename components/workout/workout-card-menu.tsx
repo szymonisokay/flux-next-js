@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import { CopyIcon, EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -13,7 +14,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import axios from 'axios'
 
 type Props = {
 	workoutId: string

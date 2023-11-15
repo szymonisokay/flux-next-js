@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 import { PageHeader } from '@/components/page-header'
-import { Tooltip } from '@/components/tooltip'
 import { Button } from '@/components/ui/button'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
@@ -41,20 +40,10 @@ const WorkoutExercisesPage = async ({
 
 	return (
 		<>
-			<div className='flex items-center justify-between mb-4 gap-x-4'>
-				<PageHeader
-					title='Workout exercises'
-					description='Manage your exercises'
-				/>
-
-				<Tooltip label='Add exercise'>
-					<Link replace href={'exercises/add'}>
-						<Button variant='colored' size='sm'>
-							<PlusIcon className='w-4 h-4' />
-						</Button>
-					</Link>
-				</Tooltip>
-			</div>
+			<PageHeader
+				title='Workout exercises'
+				description='Manage your exercises'
+			/>
 
 			{!workout.trainings.length ? (
 				<div className='flex flex-col items-center justify-center w-full gap-2 mt-20'>

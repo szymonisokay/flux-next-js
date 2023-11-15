@@ -1,7 +1,8 @@
 'use client'
 
-import { ExerciseCard } from '@/components/exercise/exercise-card'
 import { Exercise } from '@prisma/client'
+
+import { ExerciseCard } from '@/components/exercise/exercise-card'
 
 type Props = {
 	exercises: Exercise[]
