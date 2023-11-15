@@ -47,7 +47,7 @@ export const Pagination = ({ total, pageSize }: Props) => {
 			forcePage={page - 1}
 			marginPagesDisplayed={1}
 			pageRangeDisplayed={1}
-			renderOnZeroPageCount={null}
+			renderOnZeroPageCount={undefined}
 			onPageChange={({ selected }) => onPageChange(++selected)}
 			previousLabel={
 				<Tooltip label='Previous page' align='center'>
