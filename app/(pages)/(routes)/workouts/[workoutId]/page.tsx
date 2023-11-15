@@ -19,9 +19,9 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 		},
 	})
 
-	// if (!workout) {
-	// 	return redirect('/workouts')
-	// }
+	if (workout) {
+		return redirect(`/workouts/${workout.id}/edit`)
+	}
 
 	return (
 		<>

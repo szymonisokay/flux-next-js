@@ -1,5 +1,6 @@
 'use client'
 
+import { XIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import qs from 'query-string'
 import { Fragment, MouseEvent } from 'react'
@@ -8,7 +9,6 @@ import { Badge } from '@/components/ui/badge'
 import { useFilters } from '@/hooks/use-filters'
 import { useHorizontalScroll } from '@/hooks/use-horizontal-scroll'
 import { cn } from '@/lib/utils'
-import { XIcon } from 'lucide-react'
 
 export const Filters = () => {
 	const pathname = usePathname()

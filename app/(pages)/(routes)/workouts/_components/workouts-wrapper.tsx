@@ -2,6 +2,7 @@
 
 import { Workout } from '@prisma/client'
 import { compareDesc, format, isToday } from 'date-fns'
+import { PlusIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { FloatingActionButton } from '@/components/floating-action-button'
@@ -9,7 +10,6 @@ import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { WorkoutCard } from '@/components/workout/workout-card'
 import { cn } from '@/lib/utils'
-import { PlusIcon } from 'lucide-react'
 
 type Props = {
 	workouts: Workout[]

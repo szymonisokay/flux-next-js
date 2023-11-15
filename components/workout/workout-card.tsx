@@ -2,11 +2,12 @@
 
 import { Workout } from '@prisma/client'
 import { ClockIcon, WeightIcon } from 'lucide-react'
+import Link from 'next/link'
 
 import { Completed } from '@/components/completed'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
+
 import { WorkoutCardMenu } from './workout-card-menu'
 
 type Props = {

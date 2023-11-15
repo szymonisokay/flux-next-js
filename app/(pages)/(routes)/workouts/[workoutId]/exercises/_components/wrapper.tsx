@@ -1,9 +1,10 @@
 'use client'
 
-import { ExerciseCard } from '@/components/exercise/exercise-card'
-import { FloatingActionButton } from '@/components/floating-action-button'
 import { Exercise, Set, Training, Workout } from '@prisma/client'
 import { PlusIcon } from 'lucide-react'
+
+import { ExerciseCard } from '@/components/exercise/exercise-card'
+import { FloatingActionButton } from '@/components/floating-action-button'
 
 type Props = {
 	workout: Workout & {

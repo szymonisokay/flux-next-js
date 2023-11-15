@@ -1,10 +1,10 @@
 'use client'
 
+import { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import { Tooltip } from '@/components/tooltip'
 import { Button } from '@/components/ui/button'
-import { LucideIcon } from 'lucide-react'
 
 type Props = {
 	href: string

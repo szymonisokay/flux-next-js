@@ -1,12 +1,12 @@
 import { DialogClose } from '@radix-ui/react-dialog'
 import { DumbbellIcon, FlameIcon, HandIcon, XIcon } from 'lucide-react'
+import Image from 'next/image'
 
+import { ManageExerciseDetailsForm } from '@/components/forms/manage-exercise-details-form'
 import { Heading } from '@/components/heading'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog'
 import { useModal } from '@/hooks/use-modal'
-import Image from 'next/image'
-import { ManageExerciseDetailsForm } from '../forms/manage-exercise-details-form'
 
 export const ManageExerciseModal = () => {
 	const { open, type, setClose, data } = useModal()
