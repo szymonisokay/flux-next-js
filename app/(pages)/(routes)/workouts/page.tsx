@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
-import { prisma } from '@/lib/prisma'
 
+import { WorkoutsListSkeleton } from './_components/workouts-list-skeleton'
 import { WorkoutsWrapper } from './_components/workouts-wrapper'
 
 const WorkoutsPage = async () => {
@@ -13,15 +14,6 @@ const WorkoutsPage = async () => {
 		return redirect('/')
 	}
 
-	const workouts = await prisma.workout.findMany({
-		where: {
-			profileId: profile.id,
-		},
-		orderBy: {
-			date: 'asc',
-		},
-	})
-
 	return (
 		<>
 			<PageHeader
@@ -30,7 +22,9 @@ const WorkoutsPage = async () => {
 				description='List of your workouts'
 			/>
 
-			<WorkoutsWrapper workouts={workouts} />
+			<Suspense fallback={<WorkoutsListSkeleton />}>
+				<WorkoutsWrapper profileId={profile.id} />
+			</Suspense>
 		</>
 	)
 }

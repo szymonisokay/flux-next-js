@@ -1,5 +1,3 @@
-'use client'
-
 import { Workout } from '@prisma/client'
 import { ClockIcon, WeightIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -8,6 +6,7 @@ import { Completed } from '@/components/completed'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import { WorkoutCardMenu } from './workout-card-menu'
 
 type Props = {
@@ -78,3 +77,26 @@ export const WorkoutCard = ({ workout, highlighted }: Props) => {
 		</div>
 	)
 }
+
+const WorkoutCardSkeleton = () => {
+	return (
+		<div className='p-4 border-[1px] border-accent/50 rounded-md'>
+			<div className='flex justify-between'>
+				<div className='flex flex-col gap-2'>
+					<Skeleton className='w-24 h-6' />
+					<Skeleton className='h-3 w-60' />
+					<Skeleton className='w-40 h-3' />
+				</div>
+
+				<Skeleton className='w-8 h-8' />
+			</div>
+
+			<div className='flex gap-8 mt-8'>
+				<Skeleton className='w-16 h-6' />
+				<Skeleton className='w-16 h-6' />
+			</div>
+		</div>
+	)
+}
+
+WorkoutCard.Skeleton = WorkoutCardSkeleton
