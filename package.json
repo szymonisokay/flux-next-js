@@ -1,6 +1,6 @@
 {
 	"name": "flux-next-js",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -29,7 +29,7 @@
 		"@radix-ui/react-separator": "^1.0.3",
 		"@radix-ui/react-slot": "^1.0.2",
 		"@radix-ui/react-tooltip": "^1.0.7",
-		"@types/react": "18.2.6",
+		"@types/react": "^18.2.37",
 		"@types/react-dom": "18.2.4",
 		"@types/uuid": "^9.0.2",
 		"autoprefixer": "10.4.14",
@@ -72,6 +72,6 @@
 		"@types/node": "^20.2.5",
 		"prisma": "^4.14.1",
 		"ts-node": "^10.9.1",
-		"typescript": "^5.0.4"
+		"typescript": "^5.2.2"
 	}
 }
