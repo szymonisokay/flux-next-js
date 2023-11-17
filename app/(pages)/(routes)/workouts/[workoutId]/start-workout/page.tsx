@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 
-import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
 import { prisma } from '@/lib/prisma'
 
@@ -43,32 +42,17 @@ const StartWorkoutPage = async ({
 	)
 
 	return (
-		<>
-			<PageHeader
-				title={
-					!trainingsNotCompleted.length
-						? 'Workout completed'
-						: 'Start working out'
-				}
-				description={
-					!trainingsNotCompleted.length
-						? 'You have completed your workout'
-						: 'Complete all of your exercises'
-				}
-			/>
+		<div className='mt-4'>
+			{!!trainingsNotCompleted.length ? (
+				<MainExercise training={trainingsNotCompleted[0]} />
+			) : (
+				<WorkoutCompleted trainings={trainingsNotCompleted} />
+			)}
 
-			<div className='mt-4'>
-				{!!trainingsNotCompleted.length ? (
-					<MainExercise training={trainingsNotCompleted[0]} />
-				) : (
-					<WorkoutCompleted trainings={trainingsNotCompleted} />
-				)}
-
-				{trainingsNotCompleted.length > 1 && (
-					<NextExercises trainings={trainingsNotCompleted} />
-				)}
-			</div>
-		</>
+			{trainingsNotCompleted.length > 1 && (
+				<NextExercises trainings={trainingsNotCompleted} />
+			)}
+		</div>
 	)
 }
 

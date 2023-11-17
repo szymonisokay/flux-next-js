@@ -1,8 +1,11 @@
-import { UserButton } from '@clerk/nextjs'
 import { BellIcon } from 'lucide-react'
+import { Suspense } from 'react'
 
 import { Sidebar } from '@/components/navigation/sidebar'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+
+import { UserView } from './user-view'
 
 export const Navbar = () => {
 	return (
@@ -14,29 +17,11 @@ export const Navbar = () => {
 					<BellIcon className='w-5 h-5 ' />
 				</Button>
 
-				<UserButton
-					afterSignOutUrl='/'
-					appearance={{
-						elements: {
-							userButtonTrigger: 'focus:shadow-none',
-							userButtonAvatarBox: 'w-7 h-7',
-							userButtonPopoverCard:
-								'rounded-md shadow-xl py-4 pt-4',
-							userPreview: 'px-4 gap-x-2',
-							userPreviewAvatarBox: 'w-9 h-9',
-							userPreviewMainIdentifier:
-								'text-primary font-semibold',
-							userPreviewSecondaryIdentifier: 'text-secondary',
-							userButtonPopoverActions: 'mt-4',
-							userButtonPopoverActionButton: 'px-4',
-							userButtonPopoverActionButtonIcon:
-								'w-4 h-4 text-primary',
-							userButtonPopoverActionButtonText: 'text-primary',
-							userButtonPopoverFooter:
-								'text-secondary p-0 px-4 mt-4',
-						},
-					}}
-				/>
+				<Suspense
+					fallback={<Skeleton className='rounded-full w-7 h-7' />}
+				>
+					<UserView />
+				</Suspense>
 			</div>
 		</header>
 	)

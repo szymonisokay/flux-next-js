@@ -7,6 +7,8 @@ import { getProfile } from '@/lib/get-profile'
 import { WorkoutsListSkeleton } from './_components/workouts-list-skeleton'
 import { WorkoutsWrapper } from './_components/workouts-wrapper'
 
+export const dynamic = 'force-dynamic'
+
 const WorkoutsPage = async () => {
 	const profile = await getProfile()
 

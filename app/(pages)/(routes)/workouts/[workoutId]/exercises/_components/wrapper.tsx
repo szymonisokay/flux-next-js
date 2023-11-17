@@ -1,43 +1,31 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import { Exercise, Set, Training, Workout } from '@prisma/client'
-import { PlusIcon } from 'lucide-react'
+import { prisma } from '@/lib/prisma'
 
-import { ExerciseCard } from '@/components/exercise/exercise-card'
-import { FloatingActionButton } from '@/components/floating-action-button'
+import { ExercisesList } from './exercises-list'
 
 type Props = {
-	workout: Workout & {
-		trainings: (Training & {
-			exercise: Exercise
-			sets: Set[]
-		})[]
-	}
+	workoutId: string
 }
 
-export const Wrapper = ({ workout }: Props) => {
-	return (
-		<>
-			<FloatingActionButton
-				href='exercises/add'
-				label='Add exercise'
-				icon={PlusIcon}
-			/>
-			<div className='grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3'>
-				{workout.trainings.map((training) => (
-					<ExerciseCard
-						key={training.id}
-						exercise={training.exercise}
-						slot={<ExerciseCard.Menu trainingId={training.id} />}
-					>
-						<ExerciseCard.Details />
-						<ExerciseCard.WorkoutInfo
-							duration={training.duration}
-							sets={training.sets}
-						/>
-					</ExerciseCard>
-				))}
-			</div>
-		</>
-	)
+export const Wrapper = async ({ workoutId }: Props) => {
+	const workout = await prisma.workout.findUnique({
+		where: {
+			id: workoutId,
+		},
+		include: {
+			trainings: {
+				include: {
+					exercise: true,
+					sets: true,
+				},
+			},
+		},
+	})
+
+	if (!workout) {
+		redirect('/workouts')
+	}
+
+	return <ExercisesList workout={workout} />
 }
