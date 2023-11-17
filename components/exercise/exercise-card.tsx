@@ -33,6 +33,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useModal } from '@/hooks/use-modal'
 import { cn } from '@/lib/utils'
 
@@ -286,3 +287,37 @@ const ExerciseCardWorkoutInfo = ({
 }
 
 ExerciseCard.WorkoutInfo = ExerciseCardWorkoutInfo
+
+type ExerciseCardSkeletonProps = {
+	showButton?: boolean
+	showSets?: boolean
+}
+
+const ExerciseCardSkeleton = ({
+	showButton,
+	showSets,
+}: ExerciseCardSkeletonProps) => {
+	return (
+		<div className='flex gap-4 p-4 border-[1px] border-accent/50 rounded-md'>
+			<Skeleton className='rounded-md w-28 h-28' />
+
+			<div>
+				<Skeleton className='w-40 h-6 mb-4' />
+				<div className='flex flex-wrap gap-4 mb-4'>
+					<Skeleton className='w-24 h-4' />
+					<Skeleton className='w-10 h-4' />
+					<Skeleton className='w-16 h-4' />
+				</div>
+				{showButton && <Skeleton className='w-full h-10' />}
+				{showSets && (
+					<div className='flex items-center justify-between mt-8'>
+						<Skeleton className='w-20 h-4' />
+						<Skeleton className='w-10 h-4' />
+					</div>
+				)}
+			</div>
+		</div>
+	)
+}
+
+ExerciseCard.Skeleton = ExerciseCardSkeleton
