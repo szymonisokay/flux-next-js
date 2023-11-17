@@ -18,8 +18,6 @@ export const WorkoutsWrapper = async ({ profileId }: Props) => {
 		},
 	})
 
-	await new Promise((resolve) => setTimeout(resolve, 5000))
-
 	const workoutsByDate = workouts.reduce((result, item) => {
 		const date = item.date
 
