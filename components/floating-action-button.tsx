@@ -15,13 +15,13 @@ type Props = {
 export const FloatingActionButton = ({ href, label, icon: Icon }: Props) => {
 	return (
 		<Link
-			className='fixed z-50 rounded-full shadow-xl bottom-8 right-8'
+			className='fixed z-50 rounded-full shadow-xl bottom-4 right-4'
 			href={href}
 		>
 			<Tooltip label={label} align='center' side='left'>
 				<Button
 					variant='colored'
-					className='w-12 h-12 p-0 rounded-full hover:bg-primary-color'
+					className='p-0 rounded-full w-[50px] h-[50px] hover:bg-primary-color'
 				>
 					<Icon className='w-5 h-5 shrink-0' />
 				</Button>
