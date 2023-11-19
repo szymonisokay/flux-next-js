@@ -77,6 +77,7 @@
 	html {
 		@apply bg-background text-foreground;
 		@apply h-full;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	::-webkit-scrollbar {
