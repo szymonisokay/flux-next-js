@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export const StartWorkoutPageSkeleton = () => {
 	return (
-		<div className='flex flex-col gap-4 mt-4'>
+		<div className='flex flex-col gap-4'>
 			<ExerciseCard.Skeleton />
 
 			<Skeleton className='w-32 h-6' />

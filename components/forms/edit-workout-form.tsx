@@ -100,7 +100,7 @@ export const EditWorkoutForm = ({ workout }: Props) => {
 			)}
 			<Form {...form}>
 				<form
-					className='flex flex-col mt-4 gap-y-3'
+					className='flex flex-col gap-y-4'
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
 					<FormField

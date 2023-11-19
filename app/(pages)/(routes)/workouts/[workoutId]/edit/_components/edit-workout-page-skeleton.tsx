@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export const EditWorkoutPageSkeleton = () => {
 	return (
-		<div className='flex flex-col gap-4 mt-4'>
+		<div className='flex flex-col gap-4'>
 			<div className='flex flex-col gap-2'>
 				<Skeleton className='w-20 h-4' />
 				<Skeleton className='w-full h-10' />

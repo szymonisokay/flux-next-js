@@ -3,7 +3,7 @@ import { WorkoutCard } from '@/components/workout/workout-card'
 
 export const WorkoutsListSkeleton = () => {
 	return (
-		<div className='flex h-[calc(100%-80px)] gap-4 pt-4'>
+		<div className='flex h-[calc(100%-80px)] gap-4'>
 			<Skeleton className='w-2 h-full' />
 
 			<div className='flex flex-col flex-1 gap-4'>

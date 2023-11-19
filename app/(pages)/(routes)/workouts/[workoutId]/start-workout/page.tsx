@@ -42,7 +42,7 @@ const StartWorkoutPage = async ({
 	)
 
 	return (
-		<div className='mt-4'>
+		<>
 			{!!trainingsNotCompleted.length ? (
 				<MainExercise training={trainingsNotCompleted[0]} />
 			) : (
@@ -52,7 +52,7 @@ const StartWorkoutPage = async ({
 			{trainingsNotCompleted.length > 1 && (
 				<NextExercises trainings={trainingsNotCompleted} />
 			)}
-		</div>
+		</>
 	)
 }
 

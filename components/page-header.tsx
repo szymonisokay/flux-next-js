@@ -16,7 +16,7 @@ export const PageHeader = ({ title, description, href }: Props) => {
 	const router = useRouter()
 
 	return (
-		<div className='flex items-center justify-between'>
+		<div className='flex items-center justify-between mb-4'>
 			<div className='flex items-center gap-x-2 '>
 				<Button
 					onClick={() =>

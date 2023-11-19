@@ -23,6 +23,7 @@ const WorkoutExercisesPage = async ({
 			<PageHeader
 				title='Workout exercises'
 				description='Manage your exercises'
+				href={`/workouts/${params.workoutId}/edit`}
 			/>
 
 			<Suspense fallback={<ExercisesPageSkeleton />}>
