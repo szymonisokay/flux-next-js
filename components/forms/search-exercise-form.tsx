@@ -58,7 +58,7 @@ export const SearchExerciseForm = () => {
 				className='flex flex-col'
 				onSubmit={form.handleSubmit(onSubmit)}
 			>
-				<div className='flex items-center gap-4 py-4'>
+				<div className='flex items-center gap-4 pb-4'>
 					<FormField
 						control={form.control}
 						name='query'

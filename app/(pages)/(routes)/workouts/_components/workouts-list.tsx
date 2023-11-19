@@ -26,8 +26,8 @@ export const WorkoutsList = ({ workoutsByDate }: Props) => {
 				label='Add workout'
 				icon={PlusIcon}
 			/>
-			<ScrollArea className='relative h-full px-3 mt-4 -mx-2'>
-				<div className='relative flex flex-col px-1 py-4 pb-8 pr-2 gap-y-4'>
+			<ScrollArea className='relative h-full px-3 -mx-2'>
+				<div className='relative flex flex-col px-1 py-4 pt-0 pb-8 pr-2 gap-y-4'>
 					{Object.entries(workoutsByDate).map(([date, workouts]) => (
 						<div
 							className='relative'

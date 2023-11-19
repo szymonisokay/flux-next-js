@@ -1,26 +1,17 @@
 import { redirect } from 'next/navigation'
 
-import { CreateWorkoutForm } from '@/components/forms/create-workout-form'
 import { PageHeader } from '@/components/page-header'
 import { getProfile } from '@/lib/get-profile'
-import { prisma } from '@/lib/prisma'
+
+import { Suspense } from 'react'
+import { WorkoutPageSkeleton } from './_components/workout-page-skeleton'
+import { WorkoutWrapper } from './_components/workout-wrapper'
 
 const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 	const profile = await getProfile()
 
 	if (!profile) {
 		return redirect('/')
-	}
-
-	const workout = await prisma.workout.findFirst({
-		where: {
-			id: params.workoutId,
-			profileId: profile.id,
-		},
-	})
-
-	if (workout) {
-		return redirect(`/workouts/${workout.id}/edit`)
 	}
 
 	return (
@@ -31,7 +22,12 @@ const WorkoutPage = async ({ params }: { params: { workoutId: string } }) => {
 				description='Fill in all required details'
 			/>
 
-			<CreateWorkoutForm />
+			<Suspense fallback={<WorkoutPageSkeleton />}>
+				<WorkoutWrapper
+					profileId={profile.id}
+					workoutId={params.workoutId}
+				/>
+			</Suspense>
 		</>
 	)
 }

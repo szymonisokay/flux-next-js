@@ -13,7 +13,7 @@ export const Navbar = () => {
 			<Sidebar />
 
 			<div className='flex items-center gap-x-2'>
-				<Button variant='ghost' size='icon'>
+				<Button className='hidden' variant='ghost' size='icon'>
 					<BellIcon className='w-5 h-5 ' />
 				</Button>
 
