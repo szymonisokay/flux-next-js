@@ -13,13 +13,18 @@ export const Wrapper = async ({ workoutId }: Props) => {
 		where: {
 			id: workoutId,
 		},
+	})
+
+	const trainings = await prisma.training.findMany({
+		where: {
+			workoutId,
+		},
 		include: {
-			trainings: {
-				include: {
-					exercise: true,
-					sets: true,
-				},
-			},
+			exercise: true,
+			sets: true,
+		},
+		orderBy: {
+			createdAt: 'desc',
 		},
 	})
 
@@ -27,5 +32,5 @@ export const Wrapper = async ({ workoutId }: Props) => {
 		redirect('/workouts')
 	}
 
-	return <ExercisesList workout={workout} />
+	return <ExercisesList trainings={trainings} />
 }

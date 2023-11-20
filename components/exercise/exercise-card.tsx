@@ -1,12 +1,13 @@
 'use client'
 
-import { Exercise, Set } from '@prisma/client'
+import { Exercise, Set, Training } from '@prisma/client'
 import axios from 'axios'
 import {
 	ClockIcon,
 	CopyIcon,
 	CrownIcon,
 	DumbbellIcon,
+	EditIcon,
 	ExpandIcon,
 	FlameIcon,
 	HandIcon,
@@ -60,6 +61,7 @@ type ExerciseCardProps = {
 	children?: React.ReactNode
 	slot?: React.ReactNode
 	highlight?: boolean
+	showPreview?: boolean
 }
 
 export const ExerciseCard = ({
@@ -67,6 +69,7 @@ export const ExerciseCard = ({
 	children,
 	slot,
 	highlight,
+	showPreview = true,
 }: ExerciseCardProps) => {
 	const { setOpen } = useModal()
 
@@ -82,16 +85,18 @@ export const ExerciseCard = ({
 			>
 				<div className='relative overflow-hidden rounded-md w-28 h-28 shrink-0'>
 					<Image priority fill src={gifUrl} alt={name} sizes='96px' />
-					<Button
-						variant='colored'
-						size='icon'
-						className='absolute z-10 w-7 h-7 top-1 left-1'
-						onClick={() =>
-							setOpen('imagePreview', { imageUrl: gifUrl })
-						}
-					>
-						<ExpandIcon className='w-4 h-4' />
-					</Button>
+					{showPreview && (
+						<Button
+							variant='colored'
+							size='icon'
+							className='absolute z-10 w-7 h-7 top-1 left-1'
+							onClick={() =>
+								setOpen('imagePreview', { imageUrl: gifUrl })
+							}
+						>
+							<ExpandIcon className='w-4 h-4' />
+						</Button>
+					)}
 				</div>
 
 				<div className='flex flex-col gap-4'>
@@ -141,7 +146,7 @@ const ExerciseCardSelectButton = () => {
 		<Button
 			variant='outline'
 			size='sm'
-			onClick={() => setOpen('addExercise', { exercise })}
+			onClick={() => setOpen('manageExercise', { exercise })}
 		>
 			Select
 		</Button>
@@ -151,17 +156,22 @@ const ExerciseCardSelectButton = () => {
 ExerciseCard.SelectButton = ExerciseCardSelectButton
 
 type ExerciseCardMenuProps = {
-	trainingId: string
+	training: Training & {
+		exercise: Exercise
+		sets: Set[]
+	}
 }
 
-const ExerciseCardMenu = ({ trainingId }: ExerciseCardMenuProps) => {
+const ExerciseCardMenu = ({ training }: ExerciseCardMenuProps) => {
 	const params = useParams()
 	const router = useRouter()
+	const { exercise } = useExerciseCard()
+	const { setOpen } = useModal()
 
 	const onDuplicateTraining = async () => {
 		try {
 			await axios.post(
-				`/api/workouts/${params?.workoutId}/trainings/${trainingId}/duplicate`
+				`/api/workouts/${params?.workoutId}/trainings/${training.id}/duplicate`
 			)
 
 			router.refresh()
@@ -173,7 +183,7 @@ const ExerciseCardMenu = ({ trainingId }: ExerciseCardMenuProps) => {
 	const onDeleteTraining = async () => {
 		try {
 			await axios.delete(
-				`/api/workouts/${params?.workoutId}/trainings/${trainingId}`
+				`/api/workouts/${params?.workoutId}/trainings/${training.id}`
 			)
 
 			router.refresh()
@@ -191,6 +201,14 @@ const ExerciseCardMenu = ({ trainingId }: ExerciseCardMenuProps) => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
 				<DropdownMenuGroup>
+					<DropdownMenuItem
+						onClick={() =>
+							setOpen('manageExercise', { exercise, training })
+						}
+					>
+						<EditIcon className='w-4 h-4 mr-2' />
+						Edit
+					</DropdownMenuItem>
 					<DropdownMenuItem onClick={onDuplicateTraining}>
 						<CopyIcon className='w-4 h-4 mr-2' />
 						Duplicate

@@ -5,18 +5,16 @@ import { PlusIcon } from 'lucide-react'
 import { ExerciseCard } from '@/components/exercise/exercise-card'
 import { FloatingActionButton } from '@/components/floating-action-button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Exercise, Set, Training, Workout } from '@prisma/client'
+import { Exercise, Set, Training } from '@prisma/client'
 
 type Props = {
-	workout: Workout & {
-		trainings: (Training & {
-			exercise: Exercise
-			sets: Set[]
-		})[]
-	}
+	trainings: (Training & {
+		exercise: Exercise
+		sets: Set[]
+	})[]
 }
 
-export const ExercisesList = ({ workout }: Props) => {
+export const ExercisesList = ({ trainings }: Props) => {
 	return (
 		<>
 			<FloatingActionButton
@@ -26,13 +24,11 @@ export const ExercisesList = ({ workout }: Props) => {
 			/>
 			<ScrollArea className='-mr-3'>
 				<div className='grid grid-cols-1 gap-4 mr-3 sm:grid-cols-2 lg:grid-cols-3'>
-					{workout.trainings.map((training) => (
+					{trainings.map((training) => (
 						<ExerciseCard
 							key={training.id}
 							exercise={training.exercise}
-							slot={
-								<ExerciseCard.Menu trainingId={training.id} />
-							}
+							slot={<ExerciseCard.Menu training={training} />}
 						>
 							<ExerciseCard.Details />
 							<ExerciseCard.WorkoutInfo
