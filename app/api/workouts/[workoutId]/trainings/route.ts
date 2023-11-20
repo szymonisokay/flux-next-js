@@ -82,9 +82,12 @@ export async function PUT(req: Request, { params }: { params: Params }) {
 						},
 					})
 					.then((data) => {
-						sets = sets.map((set) => ({
-							...set,
-							id: set.id || data.id,
+						sets = sets.map((newSet) => ({
+							...newSet,
+							id:
+								newSet.order === data.order
+									? data.id
+									: newSet.id,
 						}))
 					})
 			}
