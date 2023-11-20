@@ -1,11 +1,14 @@
-import { Exercise } from '@prisma/client'
+import { Exercise, Set, Training } from '@prisma/client'
 import { create } from 'zustand'
 
-type ModalType = 'imagePreview' | 'addExercise' | 'exerciseFilters'
+type ModalType = 'imagePreview' | 'manageExercise' | 'exerciseFilters'
 
 type ModalData = {
 	imageUrl?: string
 	exercise?: Exercise
+	training?: Training & {
+		sets: Set[]
+	}
 }
 
 type UseModalStore = {

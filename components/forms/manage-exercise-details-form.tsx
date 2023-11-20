@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Exercise } from '@prisma/client'
+import { Exercise, Set, Training } from '@prisma/client'
 import axios from 'axios'
 import { CopyIcon, Loader2Icon, TrashIcon } from 'lucide-react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
@@ -25,6 +25,7 @@ const formSchema = z.object({
 	duration: z.string().nullable(),
 	sets: z
 		.object({
+			id: z.string().optional(),
 			reps: z.number().nullable(),
 			weight: z.number().nullable(),
 			order: z.number(),
@@ -36,9 +37,13 @@ type FormValues = z.infer<typeof formSchema>
 
 type Props = {
 	exercise: Exercise
+	training?: Training & {
+		duration: string | null
+		sets: Set[]
+	}
 }
 
-export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
+export const ManageExerciseDetailsForm = ({ exercise, training }: Props) => {
 	const router = useRouter()
 	const pathname = usePathname()
 	const params = useParams()
@@ -48,8 +53,8 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 		mode: 'onChange',
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			duration: '',
-			sets: [],
+			duration: training?.duration ?? '',
+			sets: training?.sets ?? [],
 		},
 	})
 
@@ -58,17 +63,37 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 		control: form.control,
 	})
 
+	const duration = form.watch('duration')
+	const sets = form.watch('sets')
+
 	const loading = form.formState.isSubmitting
 
 	const onSubmit = async (values: FormValues) => {
 		try {
-			await axios.post(`/api/workouts/${params?.workoutId}/trainings`, {
-				...values,
-				exerciseId: exercise.id,
-			})
+			if (training) {
+				await axios.put(
+					`/api/workouts/${params?.workoutId}/trainings`,
+					{
+						...values,
+						trainingId: training?.id,
+					}
+				)
+			} else {
+				await axios.post(
+					`/api/workouts/${params?.workoutId}/trainings`,
+					{
+						...values,
+						exerciseId: exercise.id,
+					}
+				)
+			}
 
 			router.refresh()
-			router.replace(`/workouts/${params?.workoutId}/exercises`)
+			router.replace(
+				pathname.includes('/add')
+					? `/workouts/${params?.workoutId}/exercises`
+					: pathname
+			)
 
 			setTimeout(() => setClose(), 300)
 		} catch (error) {
@@ -101,6 +126,7 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 											{...field}
 											placeholder='e.g. 90 min'
 											value={field.value ?? ''}
+											disabled={!!sets.length}
 										/>
 									</FormControl>
 								</FormItem>
@@ -212,6 +238,7 @@ export const ManageExerciseDetailsForm = ({ exercise }: Props) => {
 							onClick={() =>
 								append({ reps: 0, weight: 0, order: 1 })
 							}
+							disabled={!!duration}
 						>
 							Add set
 						</Button>

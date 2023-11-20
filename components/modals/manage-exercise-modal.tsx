@@ -1,7 +1,7 @@
 import { DialogClose } from '@radix-ui/react-dialog'
-import { DumbbellIcon, FlameIcon, HandIcon, XIcon } from 'lucide-react'
-import Image from 'next/image'
+import { XIcon } from 'lucide-react'
 
+import { ExerciseCard } from '@/components/exercise/exercise-card'
 import { ManageExerciseDetailsForm } from '@/components/forms/manage-exercise-details-form'
 import { Heading } from '@/components/heading'
 import { Button } from '@/components/ui/button'
@@ -15,10 +15,13 @@ export const ManageExerciseModal = () => {
 		return null
 	}
 
-	const { exercise } = data
+	const { exercise, training } = data
 
 	return (
-		<Dialog open={open && type === 'addExercise'} onOpenChange={setClose}>
+		<Dialog
+			open={open && type === 'manageExercise'}
+			onOpenChange={setClose}
+		>
 			<DialogContent className='md:max-w-2xl'>
 				<DialogHeader className='text-left '>
 					<div className='flex justify-between'>
@@ -35,43 +38,14 @@ export const ManageExerciseModal = () => {
 					</div>
 				</DialogHeader>
 				<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-					<div className='flex flex-col gap-2 p-4 border rounded-md bg-accent'>
-						<div className='flex gap-3 md:flex-col '>
-							<div className='relative overflow-hidden bg-white border rounded-md w-36 h-36 md:w-full md:h-52 shrink-0'>
-								<Image
-									fill
-									priority
-									src={exercise.gifUrl}
-									alt={exercise.name}
-									className='md:object-contain'
-								/>
-							</div>
-							<div>
-								<Heading title={exercise.name} />
-								<div className='flex flex-wrap mt-3 gap-x-6 gap-y-3'>
-									<div className='flex items-center text-secondary'>
-										<HandIcon className='w-4 h-4 mr-2' />
-										<span className='text-sm leading-none'>
-											{exercise.bodyPart}
-										</span>
-									</div>
-
-									<div className='flex items-center text-secondary'>
-										<DumbbellIcon className='w-4 h-4 mr-2' />
-										<span className='text-sm leading-none'>
-											{exercise.equipment}
-										</span>
-									</div>
-
-									<div className='flex items-center text-secondary'>
-										<FlameIcon className='w-4 h-4 mr-2' />
-										<span className='text-sm leading-none'>
-											{exercise.target}
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div className='flex flex-col gap-2'>
+						<ExerciseCard
+							highlight
+							showPreview={false}
+							exercise={exercise}
+						>
+							<ExerciseCard.Details />
+						</ExerciseCard>
 					</div>
 
 					<div>
@@ -80,7 +54,10 @@ export const ManageExerciseModal = () => {
 							description='Specify number of reps and weight for each set'
 						/>
 
-						<ManageExerciseDetailsForm exercise={exercise} />
+						<ManageExerciseDetailsForm
+							exercise={exercise}
+							training={training}
+						/>
 					</div>
 				</div>
 			</DialogContent>
