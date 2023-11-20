@@ -24,7 +24,10 @@ export const NextExercises = ({ trainings }: Props) => {
 				{trainings.map((training, index) => (
 					<Fragment key={training.id}>
 						{index > 0 && (
-							<ExerciseCard exercise={training.exercise}>
+							<ExerciseCard
+								exercise={training.exercise}
+								slot={<ExerciseCard.Menu training={training} />}
+							>
 								<ExerciseCard.Details />
 								<ExerciseCard.WorkoutInfo
 									duration={training.duration}

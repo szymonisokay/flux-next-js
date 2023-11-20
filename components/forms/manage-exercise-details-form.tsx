@@ -89,7 +89,11 @@ export const ManageExerciseDetailsForm = ({ exercise, training }: Props) => {
 			}
 
 			router.refresh()
-			router.replace(`/workouts/${params?.workoutId}/exercises`)
+			router.replace(
+				pathname.includes('/add')
+					? `/workouts/${params?.workoutId}/exercises`
+					: pathname
+			)
 
 			setTimeout(() => setClose(), 300)
 		} catch (error) {

@@ -24,7 +24,7 @@ export const Wrapper = async ({ workoutId }: Props) => {
 			sets: true,
 		},
 		orderBy: {
-			createdAt: 'desc',
+			createdAt: 'asc',
 		},
 	})
 
